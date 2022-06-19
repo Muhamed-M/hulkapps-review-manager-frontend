@@ -1,17 +1,20 @@
 <template>
     <div>
-        <v-app-bar dark>
+        <v-app-bar>
             <v-container class="d-flex align-center">
                 <div class="d-flex align-center">
                     <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
                     <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
                 </div>
                 <v-spacer></v-spacer>
-                <v-btn color="success"> <v-icon class="mr-2">mdi-refresh</v-icon> Refresh </v-btn>
+                <v-btn color="success" class="mr-2"> <v-icon class="mr-2">mdi-refresh</v-icon> Update </v-btn>
+                <v-btn color="primary" @click="changeTheme()">
+                    <v-icon>{{ themeIcon }}</v-icon></v-btn
+                >
             </v-container>
         </v-app-bar>
 
-        <v-navigation-drawer v-model="drawer" absolute temporary dark>
+        <v-navigation-drawer v-model="drawer" absolute temporary>
             <v-list nav dense>
                 <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
                     <v-list-item to="/" @click="changeTitle('Dashboard')">
@@ -54,6 +57,15 @@ export default {
         changeTitle(title) {
             this.pageTitle = title
         },
+        changeTheme() {
+            this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+        },
+    },
+
+    computed: {
+        themeIcon() {
+            return this.$vuetify.theme.dark ? 'mdi-white-balance-sunny' : 'mdi-moon-waning-crescent'
+        },
     },
 }
 </script>
@@ -65,10 +77,10 @@ a {
 }
 
 .v-application .deep-purple--text.text--accent-4 {
-    color: unset;
+    color: unset !important;
 }
 
 .v-application .deep-purple--text {
-    color: unset;
+    color: unset !important;
 }
 </style>
