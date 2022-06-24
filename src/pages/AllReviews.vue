@@ -36,29 +36,33 @@ export default {
         search: '',
         headers: [
             {
-                text: 'Shop Name',
-                value: 'name',
+                text: 'App',
+                value: 'app',
+            },
+            {
+                text: 'Store Name',
+                value: 'storeName',
                 sortable: false,
             },
             {
                 text: 'Star Rating',
-                value: 'id',
-                width: 100,
+                value: 'rating',
+                width: 120,
             },
             {
-                text: 'Review',
-                value: 'body',
+                text: 'Comment',
+                value: 'comment',
                 sortable: false,
             },
             {
                 text: 'Location',
-                value: '',
+                value: 'location',
                 sortable: false,
                 align: 'right',
             },
             {
                 text: 'Date',
-                value: '',
+                value: 'date',
                 align: 'right',
             },
         ],

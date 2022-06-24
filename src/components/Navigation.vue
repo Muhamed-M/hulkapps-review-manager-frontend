@@ -7,6 +7,8 @@
                     <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
                 </div>
                 <v-spacer></v-spacer>
+                <img src="../assets/hulk-logo.png" alt="logo" width="50px" />
+                <v-spacer></v-spacer>
                 <v-btn color="success" class="mr-2"> <v-icon class="mr-2">mdi-refresh</v-icon> Update </v-btn>
                 <v-btn color="primary" @click="changeTheme()">
                     <v-icon>{{ themeIcon }}</v-icon></v-btn

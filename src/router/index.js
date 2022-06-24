@@ -18,6 +18,11 @@ const routes = [
         // which is lazy-loaded when the route is visited.
         component: () => import('../pages/AllReviews.vue'),
     },
+    {
+        path: '/settings',
+        name: 'settings',
+        component: () => import('../pages/Settings.vue'),
+    },
 ]
 
 const router = new VueRouter({
