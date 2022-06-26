@@ -9,14 +9,11 @@ export default new Vuex.Store({
         reviews: [],
         apps: [],
     },
-    getters: {
-        allReviews: (state) => state.reviews,
-        allApps: (state) => state.apps,
-    },
+    getters: {},
     mutations: {
-        setReviews: (state, reviews) => (state.reviews = reviews),
-        setApps: (state, apps) => (state.apps = apps),
-        newAppName: (state, app) => state.apps.push(app),
+        setReviews: (state, payload) => (state.reviews = payload),
+        setApps: (state, payload) => (state.apps = payload),
+        newAppName: (state, payload) => state.apps.unshift(payload),
     },
     actions: {
         async getReviews({ commit }) {

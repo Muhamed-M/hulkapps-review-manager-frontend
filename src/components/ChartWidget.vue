@@ -7,7 +7,7 @@
             <v-spacer></v-spacer>
             <div>
                 <v-card-subtitle>{{ title }}</v-card-subtitle>
-                <v-card-title>{{ number }}</v-card-title>
+                <v-card-title class="text-h4">{{ formatNumber(number) }}</v-card-title>
             </div>
         </v-card-title>
         <v-divider class="mx-5"></v-divider>
@@ -29,6 +29,10 @@ export default {
         color: String,
     },
 
-    data: () => ({}),
+    methods: {
+        formatNumber(num) {
+            return num.toLocaleString()
+        },
+    },
 }
 </script>

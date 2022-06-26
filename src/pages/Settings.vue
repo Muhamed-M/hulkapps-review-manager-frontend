@@ -1,5 +1,17 @@
 <template>
-    <v-container>
+    <v-container class="my-2">
+        <!-- MANULLY UPDATE DATA SECTION START -->
+        <v-row>
+            <v-col cols="6">
+                <h2 class="text-uppercase">Update Data</h2>
+                <h4>Manually scrape data.</h4>
+            </v-col>
+            <v-col cols="6" class="text-right" align-self="center">
+                <v-btn color="success" class="mr-2"> <v-icon class="mr-2">mdi-refresh</v-icon> Refresh </v-btn>
+            </v-col>
+        </v-row>
+        <v-divider class="my-3"></v-divider>
+        <!-- MANULLY UPDATE DATA SECTION END -->
         <!-- ADD APPS SECTION START -->
         <h2 class="text-uppercase">Add Apps</h2>
         <h4>Add apps that you want to see reviews from.</h4>
@@ -24,9 +36,9 @@
                         <v-subheader>
                             CURRENT APPS
                             <v-spacer></v-spacer>
-                            Quantity: {{ allApps.length }}
+                            Quantity: {{ apps.length }}
                         </v-subheader>
-                        <v-list-item v-for="app in allApps" :key="app._id">
+                        <v-list-item v-for="app in apps" :key="app._id">
                             <v-list-item-title class="text-capitalize">
                                 {{ app.appName }}
                             </v-list-item-title>
@@ -36,7 +48,7 @@
             </v-col>
         </v-row>
         <!-- ADD APPS SECTION END -->
-        <h2 class="text-uppercase">REGISTER NEW ADMIN</h2>
+        <h2 class="text-uppercase">REGISTER NEW USER</h2>
         <h4>Add people you want to have access to the app.</h4>
         <v-divider class="my-3"></v-divider>
         <v-row class="my-4">
@@ -79,7 +91,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'SettingsPage',
@@ -95,12 +107,12 @@ export default {
         ...mapActions(['getApps', 'addApp']),
     },
 
-    created() {
+    mounted() {
         this.getApps()
     },
 
     computed: {
-        ...mapGetters(['allApps']),
+        ...mapState(['apps']),
     },
 }
 </script>

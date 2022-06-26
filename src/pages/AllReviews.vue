@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <v-card class="mt-10">
             <v-card-title>
                 <v-card color="#01aaa3" class="py-5 px-10 white--text position">
@@ -20,7 +20,17 @@
                     :items="allReviews"
                     :items-per-page="10"
                     :search="search"
-                ></v-data-table>
+                    :footer-props="{
+                        'items-per-page-options': [10, 25, 50],
+                    }"
+                >
+                    <template #[`item.rating`]="{ item }">
+                        <template v-for="i in 5">
+                            <v-icon small v-if="i <= item.rating" :key="i">mdi-star</v-icon>
+                            <v-icon small v-else :key="i">mdi-star-outline</v-icon>
+                        </template>
+                    </template>
+                </v-data-table>
             </v-card-text>
         </v-card>
     </v-container>
@@ -33,8 +43,15 @@ export default {
     name: 'AllReviews',
 
     data: () => ({
+        isLoading: false,
         search: '',
         headers: [
+            {
+                text: 'Date',
+                value: 'date',
+                align: 'left',
+                width: 200,
+            },
             {
                 text: 'App',
                 value: 'app',
@@ -45,6 +62,12 @@ export default {
                 sortable: false,
             },
             {
+                text: 'Location',
+                value: 'location',
+                sortable: false,
+                width: 200,
+            },
+            {
                 text: 'Star Rating',
                 value: 'rating',
                 width: 120,
@@ -53,17 +76,6 @@ export default {
                 text: 'Comment',
                 value: 'comment',
                 sortable: false,
-            },
-            {
-                text: 'Location',
-                value: 'location',
-                sortable: false,
-                align: 'right',
-            },
-            {
-                text: 'Date',
-                value: 'date',
-                align: 'right',
             },
         ],
     }),

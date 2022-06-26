@@ -28,15 +28,15 @@ export default {
 
     data: () => ({
         chartData: {
-            labels: ['Ja', 'Fe', 'Ma', 'Ap', 'Mai', 'Ju', 'Jul', 'Au', 'Se', 'Oc', 'No', 'De'],
-            series: [[542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895]],
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            series: [[20, 74, 45, 20, 60, 130, 38, 43, 46, 101, 92, 120]],
         },
         options: {
             axisX: {
                 showGrid: false,
             },
             low: 0,
-            high: 1000,
+            high: 200,
             chartPadding: {
                 top: 0,
                 right: 5,
@@ -46,10 +46,16 @@ export default {
         },
         charts: [
             {
+                title: 'Today',
+                number: 4,
+                icon: 'mdi-calendar',
+                color: '#a0e6e3',
+            },
+            {
                 title: 'This Month',
                 number: 23,
                 icon: 'mdi-calendar-month',
-                color: '#a0e6e3',
+                color: '#5bbdb8',
             },
             {
                 title: 'Last Month',

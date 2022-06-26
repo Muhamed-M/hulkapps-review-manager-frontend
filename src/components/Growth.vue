@@ -32,10 +32,33 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .chartist {
-    max-height: 220px;
-    background-color: #e6e6e6;
-    color: #fff;
+    max-height: 230px;
+    background-color: #00cae3;
+    border-radius: 10px;
+}
+
+.ct-label {
+    color: #fff !important;
+    font-size: 0.875rem !important;
+    font-weight: 300 !important;
+}
+
+.ct-grid {
+    stroke: hsla(0, 0%, 100%, 0.2) !important;
+}
+
+.ct-series-a .ct-bar,
+.ct-series-a .ct-line,
+.ct-series-a .ct-point,
+.ct-series-a .ct-slice-donut {
+    stroke: rgba(255, 255, 255, 0.8) !important;
+    stroke-width: 20px;
+}
+
+.ct-series-a .ct-slice-pie,
+.ct-series-a .ct-area {
+    fill: rgba(255, 255, 255, 0.4) !important;
 }
 </style>
