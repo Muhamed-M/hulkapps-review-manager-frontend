@@ -17,7 +17,7 @@
             <v-card-text>
                 <v-data-table
                     :headers="headers"
-                    :items="allReviews"
+                    :items="reviews"
                     :items-per-page="10"
                     :search="search"
                     :footer-props="{
@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
     name: 'AllReviews',
@@ -89,7 +89,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters(['allReviews']),
+        ...mapState(['reviews']),
     },
 }
 </script>

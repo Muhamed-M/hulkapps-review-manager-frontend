@@ -13,7 +13,7 @@ export default new Vuex.Store({
     mutations: {
         setReviews: (state, payload) => (state.reviews = payload),
         setApps: (state, payload) => (state.apps = payload),
-        newAppName: (state, payload) => state.apps.unshift(payload),
+        newAppName: (state, payload) => state.apps.push(payload),
     },
     actions: {
         async getReviews({ commit }) {
@@ -28,7 +28,7 @@ export default new Vuex.Store({
             const response = await axios.post('http://localhost:5000/ha.api/v1/reviews/add-app-name', {
                 appName,
             })
-            commit('newAppName', response.data.data.appName)
+            commit('newAppName', response.data.data)
         },
     },
     modules: {},
