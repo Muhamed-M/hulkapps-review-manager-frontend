@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../pages/Dashboard.vue'
+import store from '@/store'
 
 Vue.use(VueRouter)
 
@@ -8,20 +8,52 @@ const routes = [
     {
         path: '/',
         name: 'dashboard',
-        component: Dashboard,
+        component: () => import('../pages/Dashboard.vue'),
+        // if user is not authenticated redirect to login page
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                next('/login')
+            } else {
+                next()
+            }
+        },
+    },
+    {
+        path: '/login',
+        name: 'login',
+        component: () => import('../pages/LogIn.vue'),
+        // if user is authenticated prevent from reaching login page
+        beforeEnter: (to, from, next) => {
+            if (store.state.user) {
+                next('/')
+            } else {
+                next()
+            }
+        },
     },
     {
         path: '/all-reviews',
         name: 'allReviews',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
         component: () => import('../pages/AllReviews.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                next('/login')
+            } else {
+                next()
+            }
+        },
     },
     {
         path: '/settings',
         name: 'settings',
         component: () => import('../pages/Settings.vue'),
+        beforeEnter: (to, from, next) => {
+            if (!store.state.user) {
+                next('/login')
+            } else {
+                next()
+            }
+        },
     },
 ]
 

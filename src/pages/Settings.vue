@@ -1,7 +1,7 @@
 <template>
     <v-container class="my-2">
         <!-- MANULLY UPDATE DATA SECTION START -->
-        <v-row>
+        <v-row class="my-4">
             <v-col cols="6">
                 <h2 class="text-uppercase">Update Data</h2>
                 <h4>Manually scrape data.</h4>
@@ -81,6 +81,7 @@
                         hide-details
                         class="mr-4"
                     ></v-text-field>
+                    <v-checkbox v-model="isAgent" label="Agent"></v-checkbox>
                 </v-form>
             </v-col>
             <v-col cols="12">
@@ -101,13 +102,14 @@ export default {
         username: '',
         email: '',
         password: '',
+        isAgent: false,
     }),
 
     methods: {
         ...mapActions(['getApps', 'addApp']),
     },
 
-    mounted() {
+    created() {
         this.getApps()
     },
 

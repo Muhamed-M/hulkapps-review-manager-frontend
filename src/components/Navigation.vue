@@ -16,6 +16,15 @@
         </v-app-bar>
 
         <v-navigation-drawer v-model="drawer" absolute temporary>
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="text-h6">HulkApps</v-list-item-title>
+                    <v-list-item-subtitle>Reviews Manager</v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
             <v-list nav dense>
                 <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
                     <v-list-item to="/" @click="changeTitle('Dashboard')">
@@ -37,6 +46,13 @@
                             <v-icon>mdi-cog</v-icon>
                         </v-list-item-icon>
                         <v-list-item-title>Settings</v-list-item-title>
+                    </v-list-item>
+
+                    <v-list-item @click="logout()">
+                        <v-list-item-icon>
+                            <v-icon>mdi-logout</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-title>Log Out</v-list-item-title>
                     </v-list-item>
                 </v-list-item-group>
             </v-list>
@@ -60,6 +76,11 @@ export default {
         },
         changeTheme() {
             this.$vuetify.theme.dark = !this.$vuetify.theme.dark
+        },
+        logout() {
+            this.$store.commit('setUser', null)
+            this.$router.push('/login')
+            localStorage.removeItem('user')
         },
     },
 

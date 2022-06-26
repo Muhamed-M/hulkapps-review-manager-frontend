@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid>
+    <v-container fluid class="max-width">
         <v-card class="mt-10">
             <v-card-title>
                 <v-card color="#01aaa3" class="py-5 px-10 white--text position">
@@ -100,5 +100,11 @@ export default {
         position: absolute;
         top: -20px;
     }
+}
+
+.max-width {
+    max-width: 2000px;
+    width: 98%;
+    margin-inline: auto;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <v-app dark>
-        <Navigation />
+        <Navigation v-if="$store.state.user" />
         <v-main>
             <router-view />
         </v-main>
@@ -12,6 +12,7 @@ import Navigation from './components/Navigation.vue'
 
 export default {
     components: { Navigation },
+
     name: 'App',
 }
 </script>
