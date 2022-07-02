@@ -44,7 +44,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-    name: 'LogInPage',
+    name: 'LoginPage',
 
     data: () => ({
         email: '',
@@ -52,9 +52,9 @@ export default {
     }),
 
     methods: {
-        ...mapActions(['logIn']),
+        ...mapActions(['login']),
         logInAndRedirect() {
-            this.logIn({ email: this.email, password: this.password })
+            this.login({ email: this.email, password: this.password })
         },
     },
 }

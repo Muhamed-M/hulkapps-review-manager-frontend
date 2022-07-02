@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="3" shaped>
+    <v-card elevation="3" shaped height="100%">
         <v-card-title>
             <v-card :color="color" class="pa-5">
                 <v-icon size="50" color="#fff">{{ icon }}</v-icon>

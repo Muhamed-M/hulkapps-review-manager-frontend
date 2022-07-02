@@ -46,14 +46,14 @@ export default {
 }
 
 .ct-grid {
-    stroke: hsla(0, 0%, 100%, 0.2) !important;
+    stroke: hsla(0, 0%, 100%, 0.4) !important;
 }
 
 .ct-series-a .ct-bar,
 .ct-series-a .ct-line,
 .ct-series-a .ct-point,
 .ct-series-a .ct-slice-donut {
-    stroke: rgba(255, 255, 255, 0.8) !important;
+    stroke: #fff !important;
     stroke-width: 20px;
 }
 

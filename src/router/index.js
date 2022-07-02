@@ -21,7 +21,7 @@ const routes = [
     {
         path: '/login',
         name: 'login',
-        component: () => import('../pages/LogIn.vue'),
+        component: () => import('../pages/Login.vue'),
         // if user is authenticated prevent from reaching login page
         beforeEnter: (to, from, next) => {
             if (store.state.user) {
@@ -35,6 +35,7 @@ const routes = [
         path: '/all-reviews',
         name: 'allReviews',
         component: () => import('../pages/AllReviews.vue'),
+        // if user is not authenticated redirect to login page
         beforeEnter: (to, from, next) => {
             if (!store.state.user) {
                 next('/login')
@@ -47,6 +48,7 @@ const routes = [
         path: '/settings',
         name: 'settings',
         component: () => import('../pages/Settings.vue'),
+        // if user is not authenticated redirect to login page
         beforeEnter: (to, from, next) => {
             if (!store.state.user) {
                 next('/login')

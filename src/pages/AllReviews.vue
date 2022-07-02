@@ -30,6 +30,10 @@
                             <v-icon small v-else :key="i">mdi-star-outline</v-icon>
                         </template>
                     </template>
+
+                    <template #[`item.isReplied`]="{ item }">
+                        <ChipIsReplied :isReplied="item.isReplied" />
+                    </template>
                 </v-data-table>
             </v-card-text>
         </v-card>
@@ -38,9 +42,14 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import ChipIsReplied from '../components/ChipIsReplied.vue'
 
 export default {
     name: 'AllReviews',
+
+    components: {
+        ChipIsReplied,
+    },
 
     data: () => ({
         isLoading: false,
@@ -50,11 +59,12 @@ export default {
                 text: 'Date',
                 value: 'date',
                 align: 'left',
-                width: 200,
+                width: 190,
             },
             {
                 text: 'App',
                 value: 'app',
+                width: 200,
             },
             {
                 text: 'Store Name',
@@ -76,6 +86,13 @@ export default {
                 text: 'Comment',
                 value: 'comment',
                 sortable: false,
+            },
+            {
+                text: 'Replied',
+                value: 'isReplied',
+                align: 'right',
+                sortable: false,
+                width: 20,
             },
         ],
     }),

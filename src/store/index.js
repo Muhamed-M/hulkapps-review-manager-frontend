@@ -22,7 +22,13 @@ export default new Vuex.Store({
         setUser: (state, payload) => (state.user = payload),
     },
     actions: {
-        async logIn({ commit }, data) {
+        // Get newest reviews
+        async getNewestReviews() {
+            const response = await axios.get('http://localhost:5000/ha.api/v1/reviews/retrive-newest-reviews')
+            console.log(response)
+        },
+        // Log in
+        async login({ commit }, data) {
             const response = await axios.post('http://localhost:5000/ha.api/v1/auth/login', {
                 email: data.email,
                 password: data.password,
@@ -36,17 +42,21 @@ export default new Vuex.Store({
             commit('setUser', response.data)
             router.push('/')
         },
+        // Get all reviews
         async getReviews({ commit }) {
             const response = await axios.get('http://localhost:5000/ha.api/v1/reviews/get-all-reviews')
             commit('setReviews', response.data.data)
         },
+        // Get all apps
         async getApps({ commit }) {
             const response = await axios.get('http://localhost:5000/ha.api/v1/reviews/get-all-apps')
             commit('setApps', response.data.data)
         },
-        async addApp({ commit }, appName) {
+        // Add apps
+        async addApp({ commit }, data) {
             const response = await axios.post('http://localhost:5000/ha.api/v1/reviews/add-app-name', {
-                appName,
+                appName: data.appName,
+                appDisplayName: data.appHandler,
             })
             commit('setAppName', response.data.data)
         },
