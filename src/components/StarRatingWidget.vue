@@ -1,5 +1,5 @@
 <template>
-    <v-card elevation="3" shaped height="100%">
+    <v-card elevation="3" shaped height="100%" min-height="220px">
         <template v-if="!isLoading">
             <v-card-title>
                 <v-card color="#04938a" class="pa-5 mt-3">
@@ -47,7 +47,7 @@ export default {
         },
         async getReviewsByStarRating() {
             this.isLoading = true
-            const response = await axios.get('http://localhost:5000/ha.api/v1/reviews/reviews-by-star-rating')
+            const response = await axios.get('/ha.api/v1/reviews/reviews-by-star-rating')
             this.reviewsByStarRating = response.data.reviews
             this.isLoading = false
         },

@@ -31,7 +31,7 @@ export default {
 
     methods: {
         formatNumber(num) {
-            return num.toLocaleString()
+            return this.number ? num.toLocaleString() : 0
         },
     },
 }

@@ -54,7 +54,7 @@ export default {
 .ct-series-a .ct-point,
 .ct-series-a .ct-slice-donut {
     stroke: #fff !important;
-    stroke-width: 20px;
+    stroke-width: 40px;
 }
 
 .ct-series-a .ct-slice-pie,

@@ -34,7 +34,6 @@ export default {
     },
 
     data: () => ({
-        totalReviews: 0,
         chartData: {
             labels: [
                 DateTime.local().minus({ months: 11 }).monthShort,
@@ -99,7 +98,7 @@ export default {
 
     methods: {
         async getReviewsByStarRating() {
-            const response = await axios.get('http://localhost:5000/ha.api/v1/reviews/get-number-of-reviews')
+            const response = await axios.get('/ha.api/v1/reviews/get-number-of-reviews')
             console.log(response.data.data)
         },
     },

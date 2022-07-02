@@ -4,16 +4,18 @@
 
 <script>
 export default {
-    name: 'ChipStatus',
+    name: 'ChipFlag',
+
     props: {
-        isReplied: {
+        flag: {
             type: Boolean,
             default: false,
         },
     },
+
     computed: {
         color() {
-            if (this.isReplied) {
+            if (this.flag) {
                 return 'success'
             } else {
                 return 'grey lighten-2'

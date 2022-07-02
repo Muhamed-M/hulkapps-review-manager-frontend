@@ -20,6 +20,8 @@
                     :items="reviews"
                     :items-per-page="10"
                     :search="search"
+                    :loading="isLoading"
+                    loading-text="Loading..."
                     :footer-props="{
                         'items-per-page-options': [10, 25, 50],
                     }"
@@ -32,7 +34,7 @@
                     </template>
 
                     <template #[`item.isReplied`]="{ item }">
-                        <ChipIsReplied :isReplied="item.isReplied" />
+                        <ChipFlag :flag="item.isReplied" />
                     </template>
                 </v-data-table>
             </v-card-text>
@@ -42,17 +44,16 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import ChipIsReplied from '../components/ChipIsReplied.vue'
+import ChipFlag from '../components/ChipFlag.vue'
 
 export default {
     name: 'AllReviews',
 
     components: {
-        ChipIsReplied,
+        ChipFlag,
     },
 
     data: () => ({
-        isLoading: false,
         search: '',
         headers: [
             {
@@ -106,7 +107,7 @@ export default {
     },
 
     computed: {
-        ...mapState(['reviews']),
+        ...mapState(['reviews', 'isLoading']),
     },
 }
 </script>
