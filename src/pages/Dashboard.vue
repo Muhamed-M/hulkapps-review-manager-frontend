@@ -22,7 +22,7 @@ import { DateTime } from 'luxon'
 import ChartWidget from '../components/ChartWidget.vue'
 import Growth from '../components/Growth.vue'
 import StarRatingWidget from '../components/StarRatingWidget.vue'
-import axios from 'axios'
+// import axios from 'axios'
 
 export default {
     name: 'DashboardPage',
@@ -92,7 +92,7 @@ export default {
         ],
     }),
 
-    created() {
+    /* created() {
         this.getReviewsByStarRating()
     },
 
@@ -101,6 +101,6 @@ export default {
             const response = await axios.get('/ha.api/v1/reviews/get-number-of-reviews')
             console.log(response.data.data)
         },
-    },
+    }, */
 }
 </script>
