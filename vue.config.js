@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
     transpileDependencies: ['vuetify'],
     devServer: {
-        allowedHosts: ['https://reviews-scraper-api.herokuapp.com'],
+        proxy: 'http://localhost:5000',
+        allowedHosts: 'all',
     },
 })
