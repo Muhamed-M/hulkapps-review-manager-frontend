@@ -13,6 +13,7 @@
         "start": "npm run serve"
     },
     "dependencies": {
+        "@vue/cli-service": "~5.0.0",
         "axios": "^0.27.2",
         "chartist": "^0.11.4",
         "core-js": "^3.8.3",
