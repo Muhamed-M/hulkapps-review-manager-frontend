@@ -243,7 +243,7 @@ export default {
             this.overlay = !this.overlay
         },
         registrationHandler() {
-            this.register({ email: this.email, password: this.password, name: this.name })
+            this.register({ email: this.email, password: this.password, name: this.name, isAgent: this.isAgent })
             this.overlay = !this.overlay
         },
         async deleteApp(appHandle) {

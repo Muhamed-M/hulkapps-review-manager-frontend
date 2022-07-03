@@ -51,6 +51,7 @@ export default new Vuex.Store({
                 email: data.email,
                 password: data.password,
                 name: data.name,
+                isAgent: data.isAgent,
             })
             commit('setUsersList', response.data.user)
         },
@@ -69,8 +70,8 @@ export default new Vuex.Store({
         // Add apps
         async addApp({ commit }, data) {
             const response = await axios.post('/ha.api/v1/reviews/add-app-name', {
-                appName: data.appName,
-                appDisplayName: data.appHandler,
+                appName: data.appHandler,
+                displayAppName: data.appName,
             })
             commit('setAppName', response.data.data)
         },
