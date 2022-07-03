@@ -1,17 +1,22 @@
 <template>
-    <v-card elevation="3" shaped>
-        <v-card-title>
-            <chartist :data="chartData" :options="options" type="Bar" class="chartist"></chartist>
-        </v-card-title>
-        <v-card-text class="d-flex align-center">
-            <v-icon>mdi-poll</v-icon>
-            <v-card-title>Growth</v-card-title>
-        </v-card-text>
-        <v-divider class="mx-5"></v-divider>
-        <v-card-text>
-            <v-icon>mdi-clock-time-four-outline</v-icon>
-            Updated 50mins ago.
-        </v-card-text>
+    <v-card elevation="3" shaped height="100%" min-height="300px">
+        <template v-if="!chartData.isLoading">
+            <v-card-title>
+                <chartist :data="chartData" :options="options" type="Bar" class="chartist"></chartist>
+            </v-card-title>
+            <v-card-text class="d-flex align-center">
+                <v-icon>mdi-poll</v-icon>
+                <v-card-title>Growth</v-card-title>
+            </v-card-text>
+            <v-divider class="mx-5"></v-divider>
+            <v-card-text>
+                <v-icon>mdi-clock-time-four-outline</v-icon>
+                Updated 50mins ago.
+            </v-card-text>
+        </template>
+        <v-sheet v-else height="100%" class="d-flex justify-center align-center">
+            <v-progress-circular indeterminate color="primary"></v-progress-circular>
+        </v-sheet>
     </v-card>
 </template>
 

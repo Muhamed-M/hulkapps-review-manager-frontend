@@ -55,7 +55,7 @@ export default {
                 DateTime.local().minus({ months: 1 }).monthShort,
                 DateTime.local().monthShort,
             ],
-            series: [[]],
+            series: [],
             isLoading: false,
         },
         options: {
@@ -122,6 +122,7 @@ export default {
             this.chartData.isLoading = true
             const response = await axios.get('/ha.api/v1/reviews/get-last-12')
             console.log(response.data.res)
+            this.chartData.series.push(response.data.res)
             this.chartData.isLoading = false
         },
     },
