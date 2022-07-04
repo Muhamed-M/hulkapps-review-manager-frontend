@@ -1,26 +1,26 @@
 <template>
-    <v-chip :color="color" small />
+  <v-chip :color="color" small />
 </template>
 
 <script>
 export default {
-    name: 'ChipFlag',
+  name: 'ChipFlag',
 
-    props: {
-        flag: {
-            type: Boolean,
-            default: false,
-        },
+  props: {
+    flag: {
+      type: Boolean,
+      default: false,
     },
+  },
 
-    computed: {
-        color() {
-            if (this.flag) {
-                return 'success'
-            } else {
-                return 'grey lighten-2'
-            }
-        },
+  computed: {
+    color() {
+      if (this.flag) {
+        return 'success';
+      } else {
+        return 'grey lighten-2';
+      }
     },
-}
+  },
+};
 </script>
