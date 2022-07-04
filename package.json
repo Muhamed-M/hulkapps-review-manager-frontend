@@ -7,7 +7,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "postinstall": "npm run build",
-    "start": "node ./server.js"
+    "start": "node server.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
