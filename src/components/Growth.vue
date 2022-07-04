@@ -5,7 +5,7 @@
       <v-card-title>Growth</v-card-title>
     </v-card-title>
     <template v-if="!chartLoading">
-      <v-card-text class="d-flex align-center">
+      <v-card-text>
         <Bar :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :plugins="plugins" />
       </v-card-text>
       <v-divider class="mx-5"></v-divider>
