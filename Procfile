@@ -1,1 +1,1 @@
-web: npm install & npm run build & http-server
+web: http-server
