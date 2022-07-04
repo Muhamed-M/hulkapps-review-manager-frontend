@@ -13,6 +13,12 @@
                     single-line
                     hide-details
                 ></v-text-field>
+                <v-btn color="success" class="ml-8">
+                    <v-icon class="mr-2">mdi-download</v-icon>
+                    <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls"
+                        >Export Table</download-excel
+                    >
+                </v-btn>
             </v-card-title>
             <v-card-text>
                 <v-data-table
@@ -44,6 +50,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import DownloadExcel from 'vue-json-excel'
 import ChipFlag from '../components/ChipFlag.vue'
 
 export default {
@@ -51,6 +58,7 @@ export default {
 
     components: {
         ChipFlag,
+        DownloadExcel,
     },
 
     data: () => ({
@@ -96,6 +104,15 @@ export default {
                 width: 20,
             },
         ],
+        csvFields: {
+            Date: 'date',
+            App: 'app',
+            'Store Name': 'storeName',
+            Location: 'location',
+            'Star Rating': 'rating',
+            Comment: 'comment',
+            Replied: 'isReplied',
+        },
     }),
 
     methods: {

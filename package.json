@@ -2,19 +2,26 @@
     "name": "frontend",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": "16.15.1",
+        "npm": "8.11.0"
+    },
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "lint": "vue-cli-service lint",
-        "heroku-postinstall": "npm install && npm run build"
+        "heroku-postinstall": "npm install && npm run build",
+        "start": "npm run serve"
     },
     "dependencies": {
+        "@vue/cli-service": "~5.0.0",
         "axios": "^0.27.2",
         "chartist": "^0.11.4",
         "core-js": "^3.8.3",
         "luxon": "^2.4.0",
         "vue": "^2.6.14",
         "vue-chartist": "^2.3.1",
+        "vue-json-excel": "^0.3.0",
         "vue-router": "^3.5.1",
         "vuetify": "^2.6.0",
         "vuex": "^3.6.2"
