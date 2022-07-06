@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="3" shaped height="100%">
+  <v-card elevation="3" shaped height="100%" min-height="220px">
     <template v-if="!isLoading">
       <v-card-title>
         <v-card :color="color" class="pa-5">

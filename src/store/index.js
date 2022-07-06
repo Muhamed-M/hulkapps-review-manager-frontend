@@ -23,14 +23,20 @@ export default new Vuex.Store({
     setReviews: (state, payload) => (state.reviews = payload),
     setApps: (state, payload) => (state.apps = payload),
     setAppName: (state, payload) => state.apps.push(payload),
+    deleteApp: (state, payload) => (state.apps = state.apps.filter((item) => item._id !== payload)),
     setUser: (state, payload) => (state.user = payload),
-    setUsersList: (state, payload) => state.usersList.list.push(payload),
+    setUsersList: (state, payload) => (state.usersList = payload),
+    pushUser: (state, payload) => state.usersList.push(payload),
+    deleteUser: (state, payload) => (state.usersList = state.usersList.filter((item) => item._id !== payload)),
   },
   actions: {
-    // Get newest reviews
+    // Scrape newest reviews
     async getNewestReviews() {
-      const response = await axios.get('/ha.api/v1/reviews/retrive-newest-reviews');
-      console.log(response);
+      await axios.post('/ha.api/v1/reviews/retrive-newest-reviews');
+    },
+    // Scrape all reviews
+    async getAllReviews() {
+      await axios.post('/ha.api/v1/reviews/retrive-reviews');
     },
     // Log in
     async login({ commit }, data) {
@@ -55,12 +61,22 @@ export default new Vuex.Store({
         name: data.name,
         isAgent: data.isAgent,
       });
-      commit('setUsersList', response.data.user);
+      commit('pushUser', response.data.user);
     },
     // Get all reviews
     async getReviews({ commit, state }) {
       state.isLoading = true;
-      const response = await axios.get('/ha.api/v1/reviews/get-all-reviews');
+      const response = await axios.post('/ha.api/v1/reviews/get-all-reviews');
+      commit('setReviews', response.data.data);
+      state.isLoading = false;
+    },
+    // Filter by reviews by app
+    async getReviewsFilter({ commit, state }, data) {
+      state.isLoading = true;
+      const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
+        type: data.type,
+        filter: data.filter,
+      });
       commit('setReviews', response.data.data);
       state.isLoading = false;
     },
@@ -76,6 +92,21 @@ export default new Vuex.Store({
         displayAppName: data.appName,
       });
       commit('setAppName', response.data.data);
+    },
+    // Delete app
+    async deleteApp({ commit }, id) {
+      await axios.delete(`/ha.api/v1/reviews/delete-app/${id}`);
+      commit('deleteApp', id);
+    },
+    // Get list of all current users
+    async getAllUsers({ commit }) {
+      const response = await axios.get('/ha.api/v1/users/get-all-users');
+      commit('setUsersList', response.data.data);
+    },
+    // Delete user
+    async deleteUser({ commit }, id) {
+      await axios.delete(`/ha.api/v1/users/${id}`);
+      commit('deleteUser', id);
     },
   },
   modules: {},

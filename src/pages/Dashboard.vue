@@ -75,6 +75,12 @@ export default {
         color: '#a0e6e3',
       },
       {
+        title: 'This Week',
+        number: 0,
+        icon: 'mdi-calendar-range',
+        color: '#7eccc8',
+      },
+      {
         title: 'This Month',
         number: 0,
         icon: 'mdi-calendar-month',
@@ -98,21 +104,39 @@ export default {
 
   created() {
     this.getTotalReviews();
+    this.getTodayTotalReviews();
+    this.getThisWeekReviews();
     this.getThisAndLastMonth();
     this.getGrowthData();
   },
 
   methods: {
+    async getTodayTotalReviews() {
+      this.charts[0].isLoading = true;
+      const response = await axios.get('/ha.api/v1/reviews/get-number-of-reviews-today');
+      this.charts[0].number = response.data.data;
+      this.charts[0].isLoading = false;
+    },
+    async getThisWeekReviews() {
+      this.charts[1].isLoading = true;
+      const response = await axios.get('/ha.api/v1/reviews/get-this-week-reviews');
+      this.charts[1].number = response.data.data;
+      this.charts[1].isLoading = false;
+    },
     async getTotalReviews() {
-      this.charts[3].isLoading = true;
+      this.charts[4].isLoading = true;
       const response = await axios.get('/ha.api/v1/reviews/get-number-of-reviews');
-      this.charts[3].number = response.data.data;
-      this.charts[3].isLoading = false;
+      this.charts[4].number = response.data.data;
+      this.charts[4].isLoading = false;
     },
     async getThisAndLastMonth() {
+      this.charts[2].isLoading = true;
+      this.charts[3].isLoading = true;
       const response = await axios.get('/ha.api/v1/reviews/this-month-last-month');
-      this.charts[1].number = response.data.data.thisMonthReviews;
-      this.charts[2].number = response.data.data.lastMonthReviews;
+      this.charts[2].number = response.data.data.thisMonthReviews;
+      this.charts[3].number = response.data.data.lastMonthReviews;
+      this.charts[2].isLoading = false;
+      this.charts[3].isLoading = false;
     },
     async getGrowthData() {
       this.chartLoading = true;
