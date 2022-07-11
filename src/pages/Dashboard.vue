@@ -16,7 +16,10 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="12">
+      <v-col cols="6">
+        <ReviewsByApp />
+      </v-col>
+      <v-col cols="6">
         <Growth :chartData="chartData" :chartOptions="chartOptions" :chartLoading="chartLoading" />
       </v-col>
     </v-row>
@@ -28,6 +31,7 @@ import { DateTime } from 'luxon';
 import ChartWidget from '../components/ChartWidget.vue';
 import Growth from '../components/Growth.vue';
 import StarRatingWidget from '../components/StarRatingWidget.vue';
+import ReviewsByApp from '../components/ReviewsByApp.vue';
 import axios from 'axios';
 
 export default {
@@ -37,6 +41,7 @@ export default {
     ChartWidget,
     Growth,
     StarRatingWidget,
+    ReviewsByApp,
   },
 
   data: () => ({

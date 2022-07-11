@@ -1,5 +1,12 @@
 <template>
-  <v-card elevation="3" shaped width="100%" min-height="200px" height="100%">
+  <v-card
+    elevation="3"
+    shaped
+    width="100%"
+    min-height="200px"
+    height="100%"
+    class="d-flex flex-column justify-space-between"
+  >
     <v-card-title>
       <v-icon>mdi-poll</v-icon>
       <v-card-title>Growth</v-card-title>
@@ -8,11 +15,13 @@
       <v-card-text>
         <Bar :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :plugins="plugins" />
       </v-card-text>
-      <v-divider class="mx-5"></v-divider>
-      <v-card-text>
-        <v-icon>mdi-clock-time-four-outline</v-icon>
-        Updated 50mins ago.
-      </v-card-text>
+      <div>
+        <v-divider class="mx-5"></v-divider>
+        <v-card-text>
+          <v-icon>mdi-clock-time-four-outline</v-icon>
+          Updated 50mins ago.
+        </v-card-text>
+      </div>
     </template>
     <v-card-text v-else>
       <v-sheet height="100%" class="d-flex justify-center align-center">
