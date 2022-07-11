@@ -5,7 +5,7 @@
         <v-container>
           <v-img src="../assets/hulk-logo.png" alt="logo" width="70px" class="mx-auto my-3" />
           <h1 class="text-center my-3">LOG IN</h1>
-          <v-row>
+          <v-row @keypress.enter="logInAndRedirect">
             <v-col cols="12">
               <v-text-field v-model="email" type="email" label="Email" outlined shaped hide-details></v-text-field>
             </v-col>

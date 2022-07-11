@@ -2,7 +2,7 @@
   <v-container class="my-4">
     <h2 class="mt-3 mb-5 text-uppercase">Reviews of HulkApps on Shopify App Store</h2>
     <v-row>
-      <v-col v-for="(chart, i) in charts" :key="i" cols="6" lg="4">
+      <v-col v-for="(chart, i) in charts" :key="i" cols="6" :lg="chart.cols">
         <ChartWidget
           :title="chart.title"
           :number="chart.number"
@@ -73,24 +73,28 @@ export default {
         number: 0,
         icon: 'mdi-calendar',
         color: '#a0e6e3',
+        cols: 3,
       },
       {
         title: 'This Week',
         number: 0,
         icon: 'mdi-calendar-range',
         color: '#7eccc8',
+        cols: 3,
       },
       {
         title: 'This Month',
         number: 0,
         icon: 'mdi-calendar-month',
         color: '#5bbdb8',
+        cols: 3,
       },
       {
         title: 'Last Month',
         number: 0,
         icon: 'mdi-calendar-month',
         color: '#01aaa3',
+        cols: 3,
       },
       {
         title: 'TOTAL',
@@ -98,6 +102,7 @@ export default {
         isLoading: false,
         icon: 'mdi-chart-bar',
         color: '#05938a',
+        cols: 4,
       },
     ],
   }),

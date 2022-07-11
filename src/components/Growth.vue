@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="3" shaped width="100%" height="100%">
+  <v-card elevation="3" shaped width="100%" min-height="200px" height="100%">
     <v-card-title>
       <v-icon>mdi-poll</v-icon>
       <v-card-title>Growth</v-card-title>
@@ -61,7 +61,6 @@ export default {
 
 <style>
 canvas {
-  width: 100% !important;
   max-height: 280px !important;
 }
 </style>
