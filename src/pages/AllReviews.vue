@@ -2,18 +2,6 @@
   <v-container fluid class="max-width">
     <v-card class="mt-10">
       <v-card-title>
-        <v-card color="#01aaa3" class="py-5 px-10 white--text position">
-          <v-icon size="40" color="#fff">mdi-text-box-multiple-outline</v-icon> REVIEWS ON ALL APPS
-        </v-card>
-        <v-spacer />
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          class="search mr-4"
-        ></v-text-field>
         <v-select
           :items="appFilter"
           v-model="filterByApp"
@@ -28,8 +16,17 @@
           outlined
           label="Filter By Rating"
           hide-details
-          class="selects"
+          class="selects mr-4"
         ></v-select>
+        <v-text-field
+          v-model="search"
+          append-icon="mdi-magnify"
+          label="Search"
+          single-line
+          hide-details
+          class="search"
+        ></v-text-field>
+        <v-spacer />
         <v-btn color="success" class="ml-8">
           <v-icon class="mr-2">mdi-download</v-icon>
           <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls"
@@ -209,10 +206,10 @@ export default {
 }
 
 .search {
-  max-width: 300px;
+  max-width: 400px !important;
 }
 
 .selects {
-  max-width: 240px;
+  max-width: 240px !important;
 }
 </style>

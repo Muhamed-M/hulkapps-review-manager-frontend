@@ -69,7 +69,7 @@
       <v-card-title>
         CURRENT USERS
         <v-spacer></v-spacer>
-        Quantity: {{ 0 }}
+        Quantity: {{ usersList.length }}
       </v-card-title>
       <v-data-table
         :headers="usersTableHeaders"

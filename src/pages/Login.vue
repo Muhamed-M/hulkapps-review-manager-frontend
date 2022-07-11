@@ -3,7 +3,7 @@
     <v-card max-width="600px" class="mx-auto">
       <v-form>
         <v-container>
-          <v-img src="./src/assets/hulk-logo.png" alt="logo" width="70px" class="mx-auto my-3" />
+          <v-img src="../assets/hulk-logo.png" alt="logo" width="70px" class="mx-auto my-3" />
           <h1 class="text-center my-3">LOG IN</h1>
           <v-row>
             <v-col cols="12">
