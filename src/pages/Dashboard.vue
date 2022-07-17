@@ -16,10 +16,16 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col cols="6">
-        <ReviewsByApp />
+      <v-col v-for="(table, i) in tableWidgets" :key="i" cols="6">
+        <TableWidget
+          :title="table.title"
+          :icon="table.icon"
+          :loading="table.loading"
+          :headers="table.headers"
+          :tableData="table.tableData"
+        />
       </v-col>
-      <v-col cols="6">
+      <v-col cols="12">
         <Growth :chartData="chartData" :chartOptions="chartOptions" :chartLoading="chartLoading" />
       </v-col>
     </v-row>
@@ -31,7 +37,7 @@ import { DateTime } from 'luxon';
 import ChartWidget from '../components/ChartWidget.vue';
 import Growth from '../components/Growth.vue';
 import StarRatingWidget from '../components/StarRatingWidget.vue';
-import ReviewsByApp from '../components/ReviewsByApp.vue';
+import TableWidget from '../components/TableWidget.vue';
 import axios from 'axios';
 
 export default {
@@ -41,7 +47,7 @@ export default {
     ChartWidget,
     Growth,
     StarRatingWidget,
-    ReviewsByApp,
+    TableWidget,
   },
 
   data: () => ({
@@ -110,6 +116,66 @@ export default {
         cols: 4,
       },
     ],
+    tableWidgets: [
+      {
+        title: 'Reviews by App',
+        icon: 'mdi-application-cog',
+        headers: [
+          {
+            text: 'App',
+            value: 'appName',
+            align: 'left',
+          },
+          {
+            text: 'This Month',
+            value: 'thisMonth',
+            sortable: false,
+          },
+          {
+            text: 'Last Month',
+            value: 'lastMonth',
+            sortable: false,
+          },
+          {
+            text: 'Total',
+            value: 'numberOfReviews',
+            align: 'right',
+            sortable: false,
+          },
+        ],
+        tableData: [],
+        loading: false,
+      },
+      {
+        title: 'Broken Down by Agent',
+        icon: 'mdi-account',
+        headers: [
+          {
+            text: 'Agent',
+            value: 'agent',
+            align: 'left',
+          },
+          {
+            text: 'This Month',
+            value: 'thisMonth',
+            sortable: false,
+          },
+          {
+            text: 'Last Month',
+            value: 'lastMonth',
+            sortable: false,
+          },
+          {
+            text: 'Total',
+            value: 'numberOfReviews',
+            align: 'right',
+            sortable: false,
+          },
+        ],
+        tableData: [],
+        loading: false,
+      },
+    ],
   }),
 
   created() {
@@ -117,6 +183,7 @@ export default {
     this.getTodayTotalReviews();
     this.getThisWeekReviews();
     this.getThisAndLastMonth();
+    this.getBrokenByAppData();
     this.getGrowthData();
   },
 
@@ -147,6 +214,12 @@ export default {
       this.charts[3].number = response.data.data.lastMonthReviews;
       this.charts[2].isLoading = false;
       this.charts[3].isLoading = false;
+    },
+    async getBrokenByAppData() {
+      this.tableWidgets[0].loading = true;
+      const response = await axios.get('/ha.api/v1/reviews/reviews-per-app');
+      this.tableWidgets[0].tableData = response.data.data;
+      this.tableWidgets[0].loading = false;
     },
     async getGrowthData() {
       this.chartLoading = true;

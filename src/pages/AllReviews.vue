@@ -53,12 +53,76 @@
             </template>
           </template>
 
+          <template #[`item.comment`]="{ item }">
+            <v-btn icon @click="openComment('comment', item.comment)">
+              <v-icon color="blue darken-2"> mdi-comment </v-icon>
+            </v-btn>
+            {{ item.comment.length > 20 ? item.comment.slice(0, 20) + '...' : item.comment }}
+          </template>
+
           <template #[`item.isReplied`]="{ item }">
             <ChipFlag :flag="item.isReplied" />
+          </template>
+
+          <template #[`item.actions`]="{ item }">
+            <div class="d-inline-flex">
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="success"
+                    fab
+                    dark
+                    depressed
+                    x-small
+                    v-bind="attrs"
+                    v-on="on"
+                    class="mr-2"
+                    @click="openModal('assignAgent')"
+                    ><v-icon>mdi-account-edit</v-icon></v-btn
+                  >
+                </template>
+                <span>Assign Agent</span>
+              </v-tooltip>
+
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn color="info" fab dark depressed x-small v-bind="attrs" v-on="on"
+                    ><v-icon>mdi-slack</v-icon></v-btn
+                  >
+                </template>
+                <span>Send to Slack</span>
+              </v-tooltip>
+            </div>
           </template>
         </v-data-table>
       </v-card-text>
     </v-card>
+
+    <!-- MODALS START -->
+    <v-overlay :value="overlay">
+      <!-- READ COMMENT MODAL START -->
+      <v-sheet v-if="overlayType === 'comment'" max-width="500px" min-height="400px" class="pa-4" rounded light>
+        <v-row class="ma-4" justify="space-between">
+          <h3>Comment:</h3>
+          <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
+        </v-row>
+        <v-divider class="my-4"></v-divider>
+        <div class="ma-2">{{ comment }}</div>
+      </v-sheet>
+      <!-- READ COMMENT MODAL END -->
+
+      <!-- ASSIGN AGENT MODAL START -->
+      <v-sheet v-if="overlayType === 'assignAgent'" max-width="500px" min-height="400px" class="pa-4" rounded light>
+        <v-row class="ma-4" justify="space-between">
+          <h3>Assign Agent</h3>
+          <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
+        </v-row>
+        <v-divider class="my-4"></v-divider>
+        <v-select :items="agents" v-model="selectAgent" label="Select Agent" outlined></v-select>
+      </v-sheet>
+      <!-- ASSIGN AGENT MODAL END -->
+    </v-overlay>
+    <!-- MODALS END -->
   </v-container>
 </template>
 
@@ -77,7 +141,14 @@ export default {
 
   data: () => ({
     search: '',
+    overlay: false,
+    overlayType: null,
+    comment: '',
+    filterByApp: null,
+    filterByRating: null,
     appFilter: [],
+    selectAgents: [],
+    selectAgent: null,
     ratingFilter: [
       {
         text: '1 Star',
@@ -100,8 +171,6 @@ export default {
         value: 5,
       },
     ],
-    filterByApp: null,
-    filterByRating: null,
     headers: [
       {
         text: 'Date',
@@ -118,6 +187,7 @@ export default {
         text: 'Store Name',
         value: 'storeName',
         sortable: false,
+        width: 200,
       },
       {
         text: 'Location',
@@ -134,6 +204,8 @@ export default {
         text: 'Comment',
         value: 'comment',
         sortable: false,
+        align: 'left',
+        width: 250,
       },
       {
         text: 'Replied',
@@ -141,6 +213,13 @@ export default {
         align: 'right',
         sortable: false,
         width: 20,
+      },
+      {
+        text: 'Actions',
+        value: 'actions',
+        align: 'right',
+        sortable: false,
+        width: 70,
       },
     ],
     csvFields: {
@@ -154,21 +233,16 @@ export default {
     },
   }),
 
-  methods: {
-    ...mapActions(['getReviews', 'getApps', 'getReviewsFilter']),
-    mapAppNames() {
-      this.appFilter = this.apps.map((item) => item.appName);
-    },
-  },
-
   computed: {
-    ...mapState(['reviews', 'isLoading', 'apps']),
+    ...mapState(['reviews', 'isLoading', 'apps', 'agents']),
   },
 
-  async mounted() {
+  async created() {
     await this.getReviews();
     await this.getApps();
-    this.mapAppNames();
+    await this.mapAppNames();
+    await this.getAgents();
+    this.mapAgentEmails();
   },
 
   watch: {
@@ -186,6 +260,25 @@ export default {
         filter: this.filterByRating,
       };
       this.getReviewsFilter(data);
+    },
+  },
+
+  methods: {
+    ...mapActions(['getReviews', 'getApps', 'getReviewsFilter', 'getAgents']),
+    mapAppNames() {
+      this.appFilter = this.apps.map((item) => item.appName);
+    },
+    mapAgentEmails() {
+      this.selectAgents = this.agents.map((item) => item.email);
+    },
+    openComment(type, comment) {
+      this.overlay = !this.overlay;
+      this.overlayType = type;
+      this.comment = comment;
+    },
+    openModal(type) {
+      this.overlay = !this.overlay;
+      this.overlayType = type;
     },
   },
 };

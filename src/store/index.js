@@ -17,6 +17,7 @@ export default new Vuex.Store({
     reviews: [],
     apps: [],
     usersList: [],
+    agents: [],
   },
   getters: {},
   mutations: {
@@ -28,6 +29,7 @@ export default new Vuex.Store({
     setUsersList: (state, payload) => (state.usersList = payload),
     pushUser: (state, payload) => state.usersList.push(payload),
     deleteUser: (state, payload) => (state.usersList = state.usersList.filter((item) => item._id !== payload)),
+    setAgents: (state, payload) => (state.agents = payload),
   },
   actions: {
     // Scrape newest reviews
@@ -107,6 +109,10 @@ export default new Vuex.Store({
     async deleteUser({ commit }, id) {
       await axios.delete(`/ha.api/v1/users/${id}`);
       commit('deleteUser', id);
+    },
+    async getAgents({ commit }) {
+      const response = await axios.get('/ha.api/v1/users/get-all-agents');
+      commit('setAgents', response.data.data);
     },
   },
   modules: {},

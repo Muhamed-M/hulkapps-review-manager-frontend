@@ -47,7 +47,9 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <v-btn color="error" fab dark small depressed @click="deleteApp(item._id)"><v-icon>mdi-delete</v-icon></v-btn>
+          <v-btn color="error" fab dark x-small depressed @click="deleteApp(item._id)"
+            ><v-icon>mdi-delete</v-icon></v-btn
+          >
         </template>
       </v-data-table>
     </v-card>
@@ -84,7 +86,7 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <v-btn color="error" fab dark small depressed @click="deleteUser(item._id)"
+          <v-btn color="error" fab dark x-small depressed @click="deleteUser(item._id)"
             ><v-icon>mdi-delete</v-icon></v-btn
           >
         </template>
