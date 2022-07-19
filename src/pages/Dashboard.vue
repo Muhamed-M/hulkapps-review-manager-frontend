@@ -156,7 +156,7 @@ export default {
         headers: [
           {
             text: 'Agent',
-            value: 'agent',
+            value: 'agentEmail',
             align: 'left',
           },
           {
@@ -185,6 +185,7 @@ export default {
   created() {
     this.getChartsData();
     this.getBrokenByAppData();
+    this.getBrokenByAgentData();
     this.getGrowthData();
   },
 
@@ -204,6 +205,12 @@ export default {
       const response = await axios.get('/ha.api/v1/reviews/reviews-per-app');
       this.tableWidgets[0].tableData = response.data.data;
       this.tableWidgets[0].loading = false;
+    },
+    async getBrokenByAgentData() {
+      this.tableWidgets[1].loading = true;
+      const response = await axios.get('/ha.api/v1/reviews/reviews-filtered-by-agent');
+      this.tableWidgets[1].tableData = response.data.reviews;
+      this.tableWidgets[1].loading = false;
     },
     async getGrowthData() {
       this.chartLoading = true;
