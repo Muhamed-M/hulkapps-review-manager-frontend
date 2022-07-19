@@ -77,20 +77,11 @@
                     v-bind="attrs"
                     v-on="on"
                     class="mr-2"
-                    @click="openModal('assignAgent')"
+                    @click="openModal('assignAgent', item.postId)"
                     ><v-icon>mdi-account-edit</v-icon></v-btn
                   >
                 </template>
                 <span>Assign Agent</span>
-              </v-tooltip>
-
-              <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn color="info" fab dark depressed x-small v-bind="attrs" v-on="on"
-                    ><v-icon>mdi-slack</v-icon></v-btn
-                  >
-                </template>
-                <span>Send to Slack</span>
               </v-tooltip>
             </div>
           </template>
@@ -118,7 +109,18 @@
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
         </v-row>
         <v-divider class="my-4"></v-divider>
-        <v-select :items="agents" v-model="selectAgent" label="Select Agent" outlined></v-select>
+        <v-select
+          :items="selectAgents"
+          v-model="selectAgent"
+          label="Select Agent"
+          outlined
+          @change="pickUpAgentData"
+        ></v-select>
+        <v-row class="pa-4">
+          <v-btn color="success" @click="assignAgentHandler()">Submit</v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="error" @click="overlay = !overlay">Cancel</v-btn>
+        </v-row>
       </v-sheet>
       <!-- ASSIGN AGENT MODAL END -->
     </v-overlay>
@@ -130,6 +132,7 @@
 import { mapState, mapActions } from 'vuex';
 import DownloadExcel from 'vue-json-excel';
 import ChipFlag from '../components/ChipFlag.vue';
+import axios from 'axios';
 
 export default {
   name: 'AllReviews',
@@ -149,6 +152,12 @@ export default {
     appFilter: [],
     selectAgents: [],
     selectAgent: null,
+    assignAgentURL: '/ha.api/v1/reviews/assign-agent-to-review/',
+    assignAgentData: {
+      agentName: '',
+      agentEmail: '',
+      agentId: '',
+    },
     ratingFilter: [
       {
         text: '1 Star',
@@ -276,22 +285,26 @@ export default {
       this.overlayType = type;
       this.comment = comment;
     },
-    openModal(type) {
+    openModal(type, reviewId) {
       this.overlay = !this.overlay;
       this.overlayType = type;
+      this.assignAgentURL = this.assignAgentURL + reviewId;
+    },
+    pickUpAgentData(email) {
+      const agent = this.agents.find((item) => item.email === email);
+      this.assignAgentData.agentName = agent.name;
+      this.assignAgentData.agentEmail = agent.email;
+      this.assignAgentData.agentId = agent._id;
+    },
+    async assignAgentHandler() {
+      const response = await axios.patch(this.assignAgentURL, this.data);
+      console.log(response);
     },
   },
 };
 </script>
 
 <style scoped>
-@media screen and (min-width: 1290px) {
-  .position {
-    position: absolute;
-    top: -20px;
-  }
-}
-
 .max-width {
   max-width: 2000px;
   width: 98%;
