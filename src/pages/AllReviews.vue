@@ -118,7 +118,7 @@
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
         </v-row>
         <v-divider class="my-4"></v-divider>
-        <v-select :items="agents" v-model="selectAgent" label="Select Agent" outlined></v-select>
+        <v-select :items="selectAgents" v-model="selectAgent" label="Select Agent" outlined></v-select>
       </v-sheet>
       <!-- ASSIGN AGENT MODAL END -->
     </v-overlay>
