@@ -1,5 +1,12 @@
 <template>
-  <v-card elevation="3" shaped width="100%" min-height="200px" height="100%">
+  <v-card
+    elevation="3"
+    shaped
+    width="100%"
+    min-height="200px"
+    height="100%"
+    class="d-flex flex-column justify-space-between"
+  >
     <v-card-title>
       <v-icon>{{ icon }}</v-icon>
       <v-card-title>{{ title }}</v-card-title>
