@@ -60,6 +60,13 @@
             {{ item.comment.length > 20 ? item.comment.slice(0, 20) + '...' : item.comment }}
           </template>
 
+          <template #[`item.developerReply`]="{ item }">
+            <v-btn icon @click="openComment('reply', item.developerReply)">
+              <v-icon color="blue darken-4"> mdi-comment </v-icon>
+            </v-btn>
+            {{ item.developerReply.length > 20 ? item.developerReply.slice(0, 20) + '...' : item.developerReply }}
+          </template>
+
           <template #[`item.isReplied`]="{ item }">
             <ChipFlag :flag="item.isReplied" />
           </template>
@@ -92,9 +99,9 @@
     <!-- MODALS START -->
     <v-overlay :value="overlay">
       <!-- READ COMMENT MODAL START -->
-      <v-sheet v-if="overlayType === 'comment'" max-width="500px" min-height="400px" class="pa-4" rounded light>
+      <v-sheet max-width="500px" min-height="400px" class="pa-4" rounded light>
         <v-row class="ma-4" justify="space-between">
-          <h3>Comment:</h3>
+          <h3>{{ modalHeader }}</h3>
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
         </v-row>
         <v-divider class="my-4"></v-divider>
@@ -152,7 +159,7 @@ export default {
     appFilter: [],
     selectAgents: [],
     selectAgent: null,
-    assignAgentURL: '/ha.api/v1/reviews/assign-agent-to-review/',
+    assignAgentURL: '',
     assignAgentData: {
       agentName: '',
       agentEmail: '',
@@ -202,16 +209,23 @@ export default {
         text: 'Location',
         value: 'location',
         sortable: false,
-        width: 200,
+        width: 160,
       },
       {
         text: 'Star Rating',
         value: 'rating',
-        width: 120,
+        width: 115,
       },
       {
         text: 'Comment',
         value: 'comment',
+        sortable: false,
+        align: 'left',
+        width: 250,
+      },
+      {
+        text: 'Reply',
+        value: 'developerReply',
         sortable: false,
         align: 'left',
         width: 250,
@@ -244,6 +258,9 @@ export default {
 
   computed: {
     ...mapState(['reviews', 'isLoading', 'apps', 'agents']),
+    modalHeader() {
+      return this.overlayType === 'comment' ? 'Comment:' : this.overlayType === 'reply' ? 'Reply:' : '';
+    },
   },
 
   async created() {
@@ -288,7 +305,7 @@ export default {
     openModal(type, reviewId) {
       this.overlay = !this.overlay;
       this.overlayType = type;
-      this.assignAgentURL = this.assignAgentURL + reviewId;
+      this.assignAgentURL = `/ha.api/v1/reviews/assign-agent-to-review/${reviewId}`;
     },
     pickUpAgentData(email) {
       const agent = this.agents.find((item) => item.email === email);
@@ -297,8 +314,9 @@ export default {
       this.assignAgentData.agentId = agent._id;
     },
     async assignAgentHandler() {
-      const response = await axios.patch(this.assignAgentURL, this.data);
-      console.log(response);
+      const response = await axios.patch(this.assignAgentURL, { assignAgentData: this.assignAgentData });
+      this.overlay = !this.overlay;
+      this.selectAgent = null;
     },
   },
 };
