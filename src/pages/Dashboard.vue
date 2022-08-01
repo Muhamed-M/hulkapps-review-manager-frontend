@@ -156,7 +156,7 @@ export default {
         headers: [
           {
             text: 'Agent',
-            value: 'agentEmail',
+            value: 'agentName',
             align: 'left',
           },
           {
