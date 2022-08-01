@@ -99,7 +99,14 @@
     <!-- MODALS START -->
     <v-overlay :value="overlay">
       <!-- READ COMMENT MODAL START -->
-      <v-sheet max-width="500px" min-height="400px" class="pa-4" rounded light>
+      <v-sheet
+        v-if="overlayType === 'comment' || overlayType === 'reply'"
+        max-width="500px"
+        min-height="400px"
+        class="pa-4"
+        rounded
+        light
+      >
         <v-row class="ma-4" justify="space-between">
           <h3>{{ modalHeader }}</h3>
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
@@ -231,6 +238,12 @@ export default {
         width: 250,
       },
       {
+        text: 'Assigned Agent',
+        value: 'assignedAgent.agentName',
+        sortable: false,
+        width: 35,
+      },
+      {
         text: 'Replied',
         value: 'isReplied',
         align: 'right',
@@ -268,7 +281,7 @@ export default {
     await this.getApps();
     await this.mapAppNames();
     await this.getAgents();
-    this.mapAgentEmails();
+    this.mapAgents();
   },
 
   watch: {
@@ -294,8 +307,8 @@ export default {
     mapAppNames() {
       this.appFilter = this.apps.map((item) => item.appName);
     },
-    mapAgentEmails() {
-      this.selectAgents = this.agents.map((item) => item.email);
+    mapAgents() {
+      this.selectAgents = this.agents.map((item) => `${item.name} - ${item.email}`);
     },
     openComment(type, comment) {
       this.overlay = !this.overlay;
@@ -314,7 +327,7 @@ export default {
       this.assignAgentData.agentId = agent._id;
     },
     async assignAgentHandler() {
-      const response = await axios.patch(this.assignAgentURL, { assignAgentData: this.assignAgentData });
+      await axios.patch(this.assignAgentURL, { assignAgentData: this.assignAgentData });
       this.overlay = !this.overlay;
       this.selectAgent = null;
     },
