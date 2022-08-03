@@ -16,6 +16,11 @@
       </v-col>
     </v-row>
     <v-row>
+      <v-col cols="12">
+        <Growth :chartData="chartData" :chartOptions="chartOptions" :chartLoading="chartLoading" />
+      </v-col>
+    </v-row>
+    <v-row>
       <v-col v-for="(table, i) in tableWidgets" :key="i" cols="6">
         <TableWidget
           :title="table.title"
@@ -24,9 +29,6 @@
           :headers="table.headers"
           :tableData="table.tableData"
         />
-      </v-col>
-      <v-col cols="12">
-        <Growth :chartData="chartData" :chartOptions="chartOptions" :chartLoading="chartLoading" />
       </v-col>
     </v-row>
   </v-container>

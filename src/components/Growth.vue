@@ -19,7 +19,7 @@
         <v-divider class="mx-5"></v-divider>
         <v-card-text>
           <v-icon>mdi-clock-time-four-outline</v-icon>
-          Updated 50mins ago.
+          Updated 1h ago.
         </v-card-text>
       </div>
     </template>

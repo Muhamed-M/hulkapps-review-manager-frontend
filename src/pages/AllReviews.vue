@@ -27,18 +27,18 @@
           class="search"
         ></v-text-field>
         <v-spacer />
-        <v-btn color="success" class="ml-8">
-          <v-icon class="mr-2">mdi-download</v-icon>
-          <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls"
-            >Export Table</download-excel
-          >
-        </v-btn>
+        <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls">
+          <v-btn color="success" class="ml-8">
+            <v-icon class="mr-2">mdi-download</v-icon>
+            Export Table
+          </v-btn>
+        </download-excel>
       </v-card-title>
       <v-card-text>
         <v-data-table
           :headers="headers"
           :items="reviews"
-          :items-per-page="10"
+          :items-per-page="25"
           :search="search"
           :loading="isLoading"
           loading-text="Loading..."
@@ -117,7 +117,7 @@
       <!-- READ COMMENT MODAL END -->
 
       <!-- ASSIGN AGENT MODAL START -->
-      <v-sheet v-if="overlayType === 'assignAgent'" max-width="500px" min-height="400px" class="pa-4" rounded light>
+      <v-sheet v-if="overlayType === 'assignAgent'" width="500px" min-height="400px" class="pa-4" rounded light>
         <v-row class="ma-4" justify="space-between">
           <h3>Assign Agent</h3>
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
@@ -265,6 +265,8 @@ export default {
       Location: 'location',
       'Star Rating': 'rating',
       Comment: 'comment',
+      Reply: 'developerReply',
+      'Assigned Agent': 'assignedAgent.agentName',
       Replied: 'isReplied',
     },
   }),
@@ -308,7 +310,12 @@ export default {
       this.appFilter = this.apps.map((item) => item.appName);
     },
     mapAgents() {
-      this.selectAgents = this.agents.map((item) => `${item.name} - ${item.email}`);
+      this.selectAgents = this.agents.map((item) => {
+        return {
+          text: `${item.name} - ${item.email}`,
+          value: item.email,
+        };
+      });
     },
     openComment(type, comment) {
       this.overlay = !this.overlay;
