@@ -16,8 +16,24 @@
       </v-card-title>
       <v-divider class="mx-5"></v-divider>
       <v-card-text>
-        <v-icon>mdi-clock-time-four-outline</v-icon>
-        Updated 1h ago.
+        <v-row>
+          <v-col class="d-flex align-center">
+            <v-icon>mdi-clock-time-four-outline</v-icon>
+            <span>Updated 1h ago.</span>
+          </v-col>
+          <v-col class="d-flex justify-end">
+            <v-select
+              :items="filterOptions"
+              v-model="timeFilter"
+              filled
+              label="Filter by time"
+              dense
+              rounded
+              hide-details
+              class="filter"
+            ></v-select>
+          </v-col>
+        </v-row>
       </v-card-text>
     </template>
     <v-sheet v-else height="100%" class="d-flex justify-center align-center">
@@ -35,22 +51,47 @@ export default {
   data: () => ({
     reviewsByStarRating: {},
     isLoading: false,
+    timeFilter: 'all',
+    filterOptions: [
+      {
+        text: 'All Time',
+        value: 'all',
+      },
+      {
+        text: 'This Month',
+        value: 'thisMonth',
+      },
+    ],
   }),
+
+  watch: {
+    timeFilter: {
+      async handler() {
+        await this.getReviewsByStarRating();
+      },
+    },
+  },
 
   created() {
     this.getReviewsByStarRating();
   },
 
   methods: {
-    formatNumber(num) {
-      return num.toLocaleString();
-    },
     async getReviewsByStarRating() {
       this.isLoading = true;
-      const response = await axios.get('/ha.api/v1/reviews/reviews-by-star-rating');
+      const response = await axios.post('/ha.api/v1/reviews/reviews-by-star-rating', { filter: this.timeFilter });
       this.reviewsByStarRating = response.data.reviews;
       this.isLoading = false;
+    },
+    formatNumber(num) {
+      return num.toLocaleString();
     },
   },
 };
 </script>
+
+<style scoped>
+.filter {
+  max-width: 240px;
+}
+</style>

@@ -203,7 +203,7 @@ export default {
       },
       {
         text: 'App',
-        value: 'app',
+        value: 'displayAppName',
         width: 200,
       },
       {
@@ -307,7 +307,12 @@ export default {
   methods: {
     ...mapActions(['getReviews', 'getApps', 'getReviewsFilter', 'getAgents']),
     mapAppNames() {
-      this.appFilter = this.apps.map((item) => item.appName);
+      this.appFilter = this.apps.map((item) => {
+        return {
+          text: item.displayAppName,
+          value: item.appName,
+        };
+      });
     },
     mapAgents() {
       this.selectAgents = this.agents.map((item) => {
