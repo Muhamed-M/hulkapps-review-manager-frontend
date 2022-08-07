@@ -46,6 +46,10 @@
             'items-per-page-options': [10, 25, 50],
           }"
         >
+          <template #[`item.date`]="{ item }">
+            <span>{{ item.date.includes('Edited') ? item.date.slice(6) : item.date }}</span>
+          </template>
+
           <template #[`item.rating`]="{ item }">
             <template v-for="i in 5">
               <v-icon small v-if="i <= item.rating" :key="i">mdi-star</v-icon>
