@@ -184,7 +184,8 @@ export default {
     ],
   }),
 
-  created() {
+  async created() {
+    this.$store.state.pageTitle = 'Dashboard';
     this.getChartsData();
     this.getBrokenByAppData();
     this.getBrokenByAgentData();

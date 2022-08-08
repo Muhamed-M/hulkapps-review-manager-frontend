@@ -4,7 +4,7 @@
       <v-container fluid class="d-flex align-center">
         <div class="d-flex align-center">
           <v-app-bar-nav-icon @click="drawer = true"></v-app-bar-nav-icon>
-          <v-toolbar-title>{{ pageTitle }}</v-toolbar-title>
+          <v-toolbar-title>{{ this.$store.state.pageTitle }}</v-toolbar-title>
         </div>
         <v-spacer></v-spacer>
         <img src="../assets/hulk-logo.png" alt="logo" width="50px" />
@@ -27,21 +27,21 @@
 
       <v-list nav dense>
         <v-list-item-group v-model="group" active-class="deep-purple--text text--accent-4">
-          <v-list-item to="/" @click="changeTitle('Dashboard')">
+          <v-list-item to="/">
             <v-list-item-icon>
               <v-icon>mdi-view-dashboard</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/all-reviews" @click="changeTitle('All Reviews')">
+          <v-list-item to="/all-reviews">
             <v-list-item-icon>
               <v-icon>mdi-format-list-bulleted</v-icon>
             </v-list-item-icon>
             <v-list-item-title>All Reviews</v-list-item-title>
           </v-list-item>
 
-          <v-list-item to="/settings" @click="changeTitle('Settings')">
+          <v-list-item to="/settings">
             <v-list-item-icon>
               <v-icon>mdi-cog</v-icon>
             </v-list-item-icon>
@@ -67,13 +67,9 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    pageTitle: 'Dashboard',
   }),
 
   methods: {
-    changeTitle(title) {
-      this.pageTitle = title;
-    },
     changeTheme() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },

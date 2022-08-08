@@ -238,6 +238,7 @@ export default {
   }),
 
   created() {
+    this.$store.state.pageTitle = 'Settings';
     this.getApps();
     this.getAllUsers();
   },

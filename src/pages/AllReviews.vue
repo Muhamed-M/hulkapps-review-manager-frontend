@@ -283,6 +283,7 @@ export default {
   },
 
   async created() {
+    this.$store.state.pageTitle = 'All Reviews';
     await this.getReviews();
     await this.getApps();
     await this.mapAppNames();

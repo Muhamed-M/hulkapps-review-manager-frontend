@@ -12,6 +12,7 @@ const user = JSON.parse(localStorage.getItem('user'));
 
 export default new Vuex.Store({
   state: {
+    pageTitle: '',
     isLoading: false,
     user: user ? user : null,
     reviews: [],
@@ -21,6 +22,7 @@ export default new Vuex.Store({
   },
   getters: {},
   mutations: {
+    setPageTitle: (state, payload) => (state.pageTitle = payload),
     setReviews: (state, payload) => (state.reviews = payload),
     setApps: (state, payload) => (state.apps = payload),
     setAppName: (state, payload) => state.apps.push(payload),
@@ -32,6 +34,9 @@ export default new Vuex.Store({
     setAgents: (state, payload) => (state.agents = payload),
   },
   actions: {
+    changePageTitle({ commit }, title) {
+      commit('setPageTitle', title);
+    },
     // Scrape newest reviews
     async getNewestReviews() {
       await axios.post('/ha.api/v1/reviews/retrive-newest-reviews');
