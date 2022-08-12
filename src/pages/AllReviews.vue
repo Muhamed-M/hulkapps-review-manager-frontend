@@ -6,7 +6,7 @@
           <v-col cols="2">
             <v-select
               :items="appFilter"
-              v-model="filterByApp"
+              v-model="filters.filterByApp"
               outlined
               label="Filter By Apps"
               hide-details
@@ -17,7 +17,7 @@
           <v-col cols="2">
             <v-select
               :items="ratingFilter"
-              v-model="filterByRating"
+              v-model="filters.filterByRating"
               outlined
               label="Filter By Rating"
               hide-details
@@ -36,11 +36,11 @@
           </v-col>
 
           <v-col>
-            <v-checkbox v-model="checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
+            <v-checkbox v-model="filters.checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
           </v-col>
 
           <v-col>
-            <v-checkbox v-model="checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
+            <v-checkbox v-model="filters.checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
           </v-col>
 
           <v-col cols="2">
@@ -206,10 +206,12 @@ export default {
     overlay: false,
     overlayType: null,
     comment: '',
-    filterByApp: null,
-    filterByRating: null,
-    checkboxUnassigned: false,
-    checkboxUnreplied: false,
+    filters: {
+      filterByApp: null,
+      filterByRating: null,
+      checkboxUnassigned: false,
+      checkboxUnreplied: false,
+    },
     appFilter: [],
     selectAgents: [],
     selectAgent: null,
@@ -251,11 +253,13 @@ export default {
         value: 'date',
         align: 'left',
         width: 150,
+        sortable: false,
       },
       {
         text: 'App',
         value: 'displayAppName',
         width: 170,
+        sortable: false,
       },
       {
         text: 'Store Name',
@@ -331,12 +335,7 @@ export default {
 
   async created() {
     this.$store.state.pageTitle = 'All Reviews';
-    await this.getReviews({
-      filterApp: this.filterByApp,
-      filterRating: this.filterByRating,
-      checkboxUnassigned: this.checkboxUnassigned,
-      checkboxUnreplied: this.checkboxUnreplied,
-    });
+    await this.getReviews(this.filters);
     await this.getApps();
     await this.mapAppNames();
     await this.getAgents();
@@ -344,44 +343,11 @@ export default {
   },
 
   watch: {
-    filterByApp() {
-      const data = {
-        filterApp: this.filterByApp,
-        filterRating: this.filterByRating,
-        checkboxUnassigned: this.checkboxUnassigned,
-        checkboxUnreplied: this.checkboxUnreplied,
-      };
-      this.getReviews(data);
-    },
-
-    filterByRating() {
-      const data = {
-        filterApp: this.filterByApp,
-        filterRating: this.filterByRating,
-        checkboxUnassigned: this.checkboxUnassigned,
-        checkboxUnreplied: this.checkboxUnreplied,
-      };
-      this.getReviews(data);
-    },
-
-    checkboxUnassigned() {
-      const data = {
-        filterApp: this.filterByApp,
-        filterRating: this.filterByRating,
-        checkboxUnassigned: this.checkboxUnassigned,
-        checkboxUnreplied: this.checkboxUnreplied,
-      };
-      this.getReviews(data);
-    },
-
-    checkboxUnreplied() {
-      const data = {
-        filterApp: this.filterByApp,
-        filterRating: this.filterByRating,
-        checkboxUnassigned: this.checkboxUnassigned,
-        checkboxUnreplied: this.checkboxUnreplied,
-      };
-      this.getReviews(data);
+    filters: {
+      async handler(oldValue, newValue) {
+        await this.getReviews(newValue);
+      },
+      deep: true,
     },
   },
 

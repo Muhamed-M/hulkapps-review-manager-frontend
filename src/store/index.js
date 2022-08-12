@@ -74,8 +74,8 @@ export default new Vuex.Store({
     async getReviews({ commit, state }, data) {
       state.isLoading = true;
       const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
-        filterRating: data.filterRating,
-        filterApp: data.filterApp,
+        filterRating: data.filterByRating,
+        filterApp: data.filterByApp,
         showUnassigned: data.checkboxUnassigned,
         showUnriplied: data.checkboxUnreplied,
       });
