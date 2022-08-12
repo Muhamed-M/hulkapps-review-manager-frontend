@@ -71,18 +71,13 @@ export default new Vuex.Store({
       commit('pushUser', response.data.user);
     },
     // Get all reviews
-    async getReviews({ commit, state }) {
-      state.isLoading = true;
-      const response = await axios.post('/ha.api/v1/reviews/get-all-reviews');
-      commit('setReviews', response.data.data);
-      state.isLoading = false;
-    },
-    // Filter by reviews by app
-    async getReviewsFilter({ commit, state }, data) {
+    async getReviews({ commit, state }, data) {
       state.isLoading = true;
       const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
-        type: data.type,
-        filter: data.filter,
+        filterRating: data.filterRating,
+        filterApp: data.filterApp,
+        showUnassigned: data.checkboxUnassigned,
+        showUnriplied: data.checkboxUnreplied,
       });
       commit('setReviews', response.data.data);
       state.isLoading = false;

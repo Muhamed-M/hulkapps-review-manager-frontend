@@ -2,37 +2,56 @@
   <v-container fluid class="max-width">
     <v-card class="mt-10">
       <v-card-title>
-        <v-select
-          :items="appFilter"
-          v-model="filterByApp"
-          outlined
-          label="Filter By Apps"
-          hide-details
-          class="selects mr-4"
-        ></v-select>
-        <v-select
-          :items="ratingFilter"
-          v-model="filterByRating"
-          outlined
-          label="Filter By Rating"
-          hide-details
-          class="selects mr-4"
-        ></v-select>
-        <v-text-field
-          v-model="search"
-          append-icon="mdi-magnify"
-          label="Search"
-          single-line
-          hide-details
-          class="search"
-        ></v-text-field>
-        <v-spacer />
-        <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls">
-          <v-btn color="success" class="ml-8">
-            <v-icon class="mr-2">mdi-download</v-icon>
-            Export Table
-          </v-btn>
-        </download-excel>
+        <v-row>
+          <v-col cols="2">
+            <v-select
+              :items="appFilter"
+              v-model="filterByApp"
+              outlined
+              label="Filter By Apps"
+              hide-details
+              class="mr-4"
+            ></v-select>
+          </v-col>
+
+          <v-col cols="2">
+            <v-select
+              :items="ratingFilter"
+              v-model="filterByRating"
+              outlined
+              label="Filter By Rating"
+              hide-details
+              class="mr-4"
+            ></v-select>
+          </v-col>
+
+          <v-col cols="3">
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              label="Search"
+              single-line
+              hide-details
+            ></v-text-field>
+          </v-col>
+
+          <v-col>
+            <v-checkbox v-model="checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
+          </v-col>
+
+          <v-col>
+            <v-checkbox v-model="checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
+          </v-col>
+
+          <v-col cols="2">
+            <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls">
+              <v-btn color="success" class="ml-8">
+                <v-icon class="mr-2">mdi-download</v-icon>
+                Export Table
+              </v-btn>
+            </download-excel>
+          </v-col>
+        </v-row>
       </v-card-title>
       <v-card-text>
         <v-data-table
@@ -61,14 +80,19 @@
             <v-btn icon @click="openComment('comment', item.comment)">
               <v-icon color="blue darken-2"> mdi-comment </v-icon>
             </v-btn>
-            {{ item.comment.length > 20 ? item.comment.slice(0, 20) + '...' : item.comment }}
           </template>
 
           <template #[`item.developerReply`]="{ item }">
             <v-btn icon @click="openComment('reply', item.developerReply)">
               <v-icon color="blue darken-4"> mdi-comment </v-icon>
             </v-btn>
-            {{ item.developerReply.length > 20 ? item.developerReply.slice(0, 20) + '...' : item.developerReply }}
+          </template>
+
+          <template #[`item.assignedAgent.agentName`]="{ item }">
+            <span
+              class="text-center d-block"
+              v-text="item.assignedAgent.agentName ? item.assignedAgent.agentName : '-'"
+            ></span>
           </template>
 
           <template #[`item.isReplied`]="{ item }">
@@ -76,7 +100,7 @@
           </template>
 
           <template #[`item.actions`]="{ item }">
-            <div class="d-inline-flex">
+            <div class="d-inline-flex justify-center">
               <v-tooltip top>
                 <template v-slot:activator="{ on, attrs }">
                   <v-btn
@@ -93,6 +117,23 @@
                   >
                 </template>
                 <span>Assign Agent</span>
+              </v-tooltip>
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    color="success"
+                    fab
+                    dark
+                    depressed
+                    x-small
+                    v-bind="attrs"
+                    v-on="on"
+                    class="mr-2"
+                    @click="redirectToShopify(item.postId)"
+                    ><v-icon>mdi-launch</v-icon></v-btn
+                  >
+                </template>
+                <span>Open review in Shopify</span>
               </v-tooltip>
             </div>
           </template>
@@ -167,6 +208,8 @@ export default {
     comment: '',
     filterByApp: null,
     filterByRating: null,
+    checkboxUnassigned: false,
+    checkboxUnreplied: false,
     appFilter: [],
     selectAgents: [],
     selectAgent: null,
@@ -177,6 +220,10 @@ export default {
       agentId: '',
     },
     ratingFilter: [
+      {
+        text: 'All',
+        value: null,
+      },
       {
         text: '1 Star',
         value: 1,
@@ -203,18 +250,18 @@ export default {
         text: 'Date',
         value: 'date',
         align: 'left',
-        width: 190,
+        width: 150,
       },
       {
         text: 'App',
         value: 'displayAppName',
-        width: 200,
+        width: 170,
       },
       {
         text: 'Store Name',
         value: 'storeName',
         sortable: false,
-        width: 200,
+        width: 170,
       },
       {
         text: 'Location',
@@ -232,20 +279,20 @@ export default {
         value: 'comment',
         sortable: false,
         align: 'left',
-        width: 250,
+        width: 100,
       },
       {
         text: 'Reply',
         value: 'developerReply',
         sortable: false,
         align: 'left',
-        width: 250,
+        width: 100,
       },
       {
         text: 'Assigned Agent',
         value: 'assignedAgent.agentName',
         sortable: false,
-        width: 35,
+        width: 120,
       },
       {
         text: 'Replied',
@@ -257,14 +304,14 @@ export default {
       {
         text: 'Actions',
         value: 'actions',
-        align: 'right',
+        align: 'center',
         sortable: false,
-        width: 70,
+        width: 90,
       },
     ],
     csvFields: {
       Date: 'date',
-      App: 'app',
+      App: 'displayAppName',
       'Store Name': 'storeName',
       Location: 'location',
       'Star Rating': 'rating',
@@ -284,7 +331,12 @@ export default {
 
   async created() {
     this.$store.state.pageTitle = 'All Reviews';
-    await this.getReviews();
+    await this.getReviews({
+      filterApp: this.filterByApp,
+      filterRating: this.filterByRating,
+      checkboxUnassigned: this.checkboxUnassigned,
+      checkboxUnreplied: this.checkboxUnreplied,
+    });
     await this.getApps();
     await this.mapAppNames();
     await this.getAgents();
@@ -294,23 +346,47 @@ export default {
   watch: {
     filterByApp() {
       const data = {
-        type: 'app',
-        filter: this.filterByApp,
+        filterApp: this.filterByApp,
+        filterRating: this.filterByRating,
+        checkboxUnassigned: this.checkboxUnassigned,
+        checkboxUnreplied: this.checkboxUnreplied,
       };
-      this.getReviewsFilter(data);
+      this.getReviews(data);
     },
 
     filterByRating() {
       const data = {
-        type: 'rating',
-        filter: this.filterByRating,
+        filterApp: this.filterByApp,
+        filterRating: this.filterByRating,
+        checkboxUnassigned: this.checkboxUnassigned,
+        checkboxUnreplied: this.checkboxUnreplied,
       };
-      this.getReviewsFilter(data);
+      this.getReviews(data);
+    },
+
+    checkboxUnassigned() {
+      const data = {
+        filterApp: this.filterByApp,
+        filterRating: this.filterByRating,
+        checkboxUnassigned: this.checkboxUnassigned,
+        checkboxUnreplied: this.checkboxUnreplied,
+      };
+      this.getReviews(data);
+    },
+
+    checkboxUnreplied() {
+      const data = {
+        filterApp: this.filterByApp,
+        filterRating: this.filterByRating,
+        checkboxUnassigned: this.checkboxUnassigned,
+        checkboxUnreplied: this.checkboxUnreplied,
+      };
+      this.getReviews(data);
     },
   },
 
   methods: {
-    ...mapActions(['getReviews', 'getApps', 'getReviewsFilter', 'getAgents']),
+    ...mapActions(['getReviews', 'getApps', 'getAgents']),
     mapAppNames() {
       this.appFilter = this.apps.map((item) => {
         return {
@@ -318,6 +394,7 @@ export default {
           value: item.appName,
         };
       });
+      this.appFilter.unshift({ text: 'All', value: null });
     },
     mapAgents() {
       this.selectAgents = this.agents.map((item) => {
@@ -347,6 +424,9 @@ export default {
       await axios.patch(this.assignAgentURL, { assignAgentData: this.assignAgentData });
       this.overlay = !this.overlay;
       this.selectAgent = null;
+    },
+    redirectToShopify(reviewId) {
+      window.open(`https://apps.shopify.com/partner/reviews/${reviewId}`);
     },
   },
 };
