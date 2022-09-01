@@ -146,7 +146,7 @@
       <!-- READ COMMENT MODAL START -->
       <v-sheet
         v-if="overlayType === 'comment' || overlayType === 'reply'"
-        max-width="500px"
+        width="500px"
         min-height="400px"
         class="pa-4"
         rounded
