@@ -12,7 +12,6 @@
   "dependencies": {
     "axios": "^0.27.2",
     "chart.js": "^3.8.0",
-    "connect-history-api-fallback": "^2.0.0",
     "express": "^4.18.1",
     "luxon": "^2.4.0",
     "vite-plugin-components": "^0.13.3",
