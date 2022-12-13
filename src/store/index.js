@@ -14,6 +14,8 @@ export default new Vuex.Store({
   state: {
     pageTitle: '',
     isLoading: false,
+    snackbar: false,
+    message: '',
     user: user ? user : null,
     reviews: [],
     apps: [],
@@ -32,6 +34,7 @@ export default new Vuex.Store({
     pushUser: (state, payload) => state.usersList.push(payload),
     deleteUser: (state, payload) => (state.usersList = state.usersList.filter((item) => item._id !== payload)),
     setAgents: (state, payload) => (state.agents = payload),
+    setSnackbar: (state, payload) => (state.snackbar = payload),
   },
   actions: {
     changePageTitle({ commit }, title) {
@@ -48,10 +51,19 @@ export default new Vuex.Store({
     // Log in
     async login({ commit }, data) {
       try {
+        const { email, password } = data;
+        // If no data display message and return
+        if (!email || !password) {
+          commit('setSnackbar', true);
+          this.state.message = 'You must enter email and password!';
+          return;
+        }
+
+        if (this.state.isLoading) return;
         this.state.isLoading = true;
         const response = await axios.post('/ha.api/v1/auth/login', {
-          email: data.email,
-          password: data.password,
+          email,
+          password,
         });
 
         // set user to local storage
@@ -62,7 +74,8 @@ export default new Vuex.Store({
         commit('setUser', response.data);
         router.push('/');
       } catch (error) {
-        console.log(error);
+        commit('setSnackbar', true);
+        this.state.message = 'Invalid credentials!';
       } finally {
         this.state.isLoading = false;
       }

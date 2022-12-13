@@ -1,7 +1,7 @@
 <template>
   <v-app dark>
-    <Navigation v-if="$store.state.user" />
     <v-main>
+      <Navigation v-if="$store.state.user" />
       <router-view />
     </v-main>
   </v-app>
