@@ -47,6 +47,7 @@ export default new Vuex.Store({
     },
     // Log in
     async login({ commit }, data) {
+      this.state.isLoading = true;
       const response = await axios.post('/ha.api/v1/auth/login', {
         email: data.email,
         password: data.password,
@@ -59,6 +60,7 @@ export default new Vuex.Store({
 
       commit('setUser', response.data);
       router.push('/');
+      this.state.isLoading = false;
     },
     // Register User
     async register({ commit }, data) {

@@ -1,9 +1,13 @@
 <template>
   <v-container class="center">
-    <v-card max-width="600px" class="mx-auto">
+    <div v-if="isLoading">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
+    </div>
+
+    <v-card v-else max-width="600px" class="mx-auto">
       <v-form>
         <v-container>
-          <v-img src="./src/assets/hulk-logo.png" alt="logo" width="70px" class="mx-auto my-3" />
+          <img src="../assets/hulk-logo.png" alt="logo" width="70px" class="d-block mx-auto my-3" />
           <h1 class="text-center my-3">LOG IN</h1>
           <v-row @keypress.enter="logInAndRedirect">
             <v-col cols="12">
@@ -32,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions, mapState } from 'vuex';
 
 export default {
   name: 'LoginPage',
@@ -41,6 +45,10 @@ export default {
     email: '',
     password: '',
   }),
+
+  computed: {
+    ...mapState(['isLoading']),
+  },
 
   methods: {
     ...mapActions(['login']),
