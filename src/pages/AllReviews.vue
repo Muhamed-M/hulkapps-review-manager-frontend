@@ -3,28 +3,6 @@
     <v-card class="mt-10">
       <v-card-title>
         <v-row>
-          <v-col cols="2">
-            <v-select
-              :items="appFilter"
-              v-model="filters.filterByApp"
-              outlined
-              label="Filter By Apps"
-              hide-details
-              class="mr-4"
-            ></v-select>
-          </v-col>
-
-          <v-col cols="2">
-            <v-select
-              :items="ratingFilter"
-              v-model="filters.filterByRating"
-              outlined
-              label="Filter By Rating"
-              hide-details
-              class="mr-4"
-            ></v-select>
-          </v-col>
-
           <v-col cols="3">
             <v-text-field
               v-model="search"
@@ -32,20 +10,43 @@
               label="Search"
               single-line
               hide-details
+              outlined
             ></v-text-field>
           </v-col>
 
-          <v-col>
+          <v-col cols="auto">
+            <v-select
+              :items="appFilter"
+              v-model="filters.filterByApp"
+              outlined
+              label="Filter By Apps"
+              hide-details
+            ></v-select>
+          </v-col>
+
+          <v-col cols="auto">
+            <v-select
+              :items="ratingFilter"
+              v-model="filters.filterByRating"
+              outlined
+              label="Filter By Rating"
+              hide-details
+            ></v-select>
+          </v-col>
+
+          <v-col cols="auto">
             <v-checkbox v-model="filters.checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
           </v-col>
 
-          <v-col>
+          <v-col cols="auto">
             <v-checkbox v-model="filters.checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
           </v-col>
 
-          <v-col cols="2">
+          <v-spacer></v-spacer>
+
+          <v-col cols="auto">
             <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls">
-              <v-btn color="success" class="ml-8">
+              <v-btn color="success">
                 <v-icon class="mr-2">mdi-download</v-icon>
                 Export Table
               </v-btn>
@@ -282,26 +283,27 @@ export default {
         text: 'Comment',
         value: 'comment',
         sortable: false,
-        align: 'left',
+        align: 'center',
         width: 100,
       },
       {
         text: 'Reply',
         value: 'developerReply',
         sortable: false,
-        align: 'left',
+        align: 'center',
         width: 100,
       },
       {
         text: 'Assigned Agent',
         value: 'assignedAgent.agentName',
         sortable: false,
+        align: 'center',
         width: 120,
       },
       {
         text: 'Replied',
         value: 'isReplied',
-        align: 'right',
+        align: 'center',
         sortable: false,
         width: 20,
       },
@@ -310,7 +312,7 @@ export default {
         value: 'actions',
         align: 'center',
         sortable: false,
-        width: 90,
+        width: 80,
       },
     ],
     csvFields: {
