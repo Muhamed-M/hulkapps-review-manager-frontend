@@ -47,20 +47,25 @@ export default new Vuex.Store({
     },
     // Log in
     async login({ commit }, data) {
-      this.state.isLoading = true;
-      const response = await axios.post('/ha.api/v1/auth/login', {
-        email: data.email,
-        password: data.password,
-      });
+      try {
+        this.state.isLoading = true;
+        const response = await axios.post('/ha.api/v1/auth/login', {
+          email: data.email,
+          password: data.password,
+        });
 
-      // set user to local storage
-      if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+        // set user to local storage
+        if (response.data) {
+          localStorage.setItem('user', JSON.stringify(response.data));
+        }
+
+        commit('setUser', response.data);
+        router.push('/');
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.state.isLoading = false;
       }
-
-      commit('setUser', response.data);
-      router.push('/');
-      this.state.isLoading = false;
     },
     // Register User
     async register({ commit }, data) {
