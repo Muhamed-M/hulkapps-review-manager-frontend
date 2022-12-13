@@ -60,6 +60,7 @@
           :items="reviews"
           :options.sync="options"
           :items-per-page="options.itemsPerPage"
+          :server-items-length="reviewsCount"
           :search="search"
           :loading="isLoading"
           loading-text="Loading..."
@@ -334,7 +335,7 @@ export default {
   }),
 
   computed: {
-    ...mapState(['reviews', 'isLoading', 'apps', 'agents']),
+    ...mapState(['reviews', 'reviewsCount', 'isLoading', 'apps', 'agents']),
     modalHeader() {
       return this.overlayType === 'comment' ? 'Comment:' : this.overlayType === 'reply' ? 'Reply:' : '';
     },
