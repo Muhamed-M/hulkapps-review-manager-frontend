@@ -279,6 +279,7 @@ export default {
       {
         text: 'Star Rating',
         value: 'rating',
+        sortable: false,
         width: 115,
       },
       {
