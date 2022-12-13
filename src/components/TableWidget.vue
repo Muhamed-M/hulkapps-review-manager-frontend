@@ -9,7 +9,7 @@
         <v-data-table
           :headers="headers"
           :items="tableData"
-          :items-per-page="20"
+          items-per-page="-1"
           sort-by="numberOfReviews"
           :sort-desc="true"
           hide-default-footer
