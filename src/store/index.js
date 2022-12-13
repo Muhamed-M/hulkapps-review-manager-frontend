@@ -18,6 +18,7 @@ export default new Vuex.Store({
     message: '',
     user: user ? user : null,
     reviews: [],
+    reviewsCount: null,
     apps: [],
     usersList: [],
     agents: [],
@@ -26,6 +27,7 @@ export default new Vuex.Store({
   mutations: {
     setPageTitle: (state, payload) => (state.pageTitle = payload),
     setReviews: (state, payload) => (state.reviews = payload),
+    setReviewsCount: (state, payload) => (state.reviewsCount = payload),
     setApps: (state, payload) => (state.apps = payload),
     setAppName: (state, payload) => state.apps.push(payload),
     deleteApp: (state, payload) => (state.apps = state.apps.filter((item) => item._id !== payload)),
@@ -92,15 +94,22 @@ export default new Vuex.Store({
     },
     // Get all reviews
     async getReviews({ commit, state }, data) {
-      state.isLoading = true;
-      const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
-        filterRating: data.filterByRating,
-        filterApp: data.filterByApp,
-        showUnassigned: data.checkboxUnassigned,
-        showUnriplied: data.checkboxUnreplied,
-      });
-      commit('setReviews', response.data.data);
-      state.isLoading = false;
+      try {
+        this.state.isLoading = true;
+        const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
+          filterRating: data.filterByRating,
+          filterApp: data.filterByApp,
+          showUnassigned: data.checkboxUnassigned,
+          showUnriplied: data.checkboxUnreplied,
+          options: data.options,
+        });
+        commit('setReviews', response.data.data);
+        commit('setReviewsCount', response.data.count);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.state.isLoading = false;
+      }
     },
     // Get all apps
     async getApps({ commit }) {

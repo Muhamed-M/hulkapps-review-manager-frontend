@@ -58,7 +58,8 @@
         <v-data-table
           :headers="headers"
           :items="reviews"
-          :items-per-page="25"
+          :options.sync="options"
+          :items-per-page="options.itemsPerPage"
           :search="search"
           :loading="isLoading"
           loading-text="Loading..."
@@ -315,6 +316,10 @@ export default {
         width: 80,
       },
     ],
+    options: {
+      page: 1,
+      itemsPerPage: 25,
+    },
     csvFields: {
       Date: 'date',
       App: 'displayAppName',
@@ -337,7 +342,6 @@ export default {
 
   async created() {
     this.$store.state.pageTitle = 'All Reviews';
-    await this.getReviews(this.filters);
     await this.getApps();
     await this.mapAppNames();
     await this.getAgents();
@@ -348,6 +352,13 @@ export default {
     filters: {
       async handler(oldValue, newValue) {
         await this.getReviews(newValue);
+      },
+      deep: true,
+    },
+    options: {
+      async handler(val) {
+        this.filters.options = val;
+        await this.getReviews(this.filters);
       },
       deep: true,
     },
