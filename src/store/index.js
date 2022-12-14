@@ -21,7 +21,7 @@ export default new Vuex.Store({
     reviewsCount: null,
     apps: [],
     usersList: [],
-    agents: [],
+    agents: []
   },
   getters: {},
   mutations: {
@@ -36,7 +36,7 @@ export default new Vuex.Store({
     pushUser: (state, payload) => state.usersList.push(payload),
     deleteUser: (state, payload) => (state.usersList = state.usersList.filter((item) => item._id !== payload)),
     setAgents: (state, payload) => (state.agents = payload),
-    setSnackbar: (state, payload) => (state.snackbar = payload),
+    setSnackbar: (state, payload) => (state.snackbar = payload)
   },
   actions: {
     changePageTitle({ commit }, title) {
@@ -65,7 +65,7 @@ export default new Vuex.Store({
         this.state.isLoading = true;
         const response = await axios.post('/ha.api/v1/auth/login', {
           email,
-          password,
+          password
         });
 
         // set user to local storage
@@ -88,7 +88,7 @@ export default new Vuex.Store({
         email: data.email,
         password: data.password,
         name: data.name,
-        isAgent: data.isAgent,
+        isAgent: data.isAgent
       });
       commit('pushUser', response.data.user);
     },
@@ -100,8 +100,9 @@ export default new Vuex.Store({
           filterRating: data.filterByRating,
           filterApp: data.filterByApp,
           showUnassigned: data.checkboxUnassigned,
-          showUnriplied: data.checkboxUnreplied,
+          showUnreplied: data.checkboxUnreplied,
           options: data.options,
+          searchQuery: data.searchQuery || null
         });
         commit('setReviews', response.data.data);
         commit('setReviewsCount', response.data.count);
@@ -120,7 +121,7 @@ export default new Vuex.Store({
     async addApp({ commit }, data) {
       const response = await axios.post('/ha.api/v1/reviews/add-app-name', {
         appName: data.appHandler,
-        displayAppName: data.appName,
+        displayAppName: data.appName
       });
       commit('setAppName', response.data.data);
     },
@@ -142,7 +143,7 @@ export default new Vuex.Store({
     async getAgents({ commit }) {
       const response = await axios.get('/ha.api/v1/users/get-all-agents');
       commit('setAgents', response.data.data);
-    },
+    }
   },
-  modules: {},
+  modules: {}
 });

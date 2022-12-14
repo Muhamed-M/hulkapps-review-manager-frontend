@@ -5,12 +5,15 @@
         <v-row>
           <v-col cols="3">
             <v-text-field
-              v-model="search"
+              v-model="searchQuery"
               append-icon="mdi-magnify"
               label="Search"
               single-line
-              hide-details
+              persistent-hint
+              hint="Search by app, store name, location or agent name"
               outlined
+              clearable
+              @input="search(500)"
             ></v-text-field>
           </v-col>
 
@@ -95,11 +98,10 @@
           :options.sync="options"
           :items-per-page="options.itemsPerPage"
           :server-items-length="reviewsCount"
-          :search="search"
           :loading="isLoading"
           loading-text="Loading..."
           :footer-props="{
-            'items-per-page-options': [10, 25, 50],
+            'items-per-page-options': [10, 25, 50]
           }"
         >
           <template #[`item.date`]="{ item }">
@@ -232,12 +234,11 @@ export default {
 
   components: {
     ChipFlag,
-    DownloadExcel,
+    DownloadExcel
   },
 
   data: () => ({
     progressLoading: false,
-    search: '',
     overlay: false,
     dialog: false,
     overlayType: null,
@@ -246,42 +247,43 @@ export default {
     selectAgents: [],
     selectAgent: null,
     assignAgentURL: '',
+    searchQuery: null,
     filters: {
       filterByApp: null,
       filterByRating: null,
       checkboxUnassigned: false,
-      checkboxUnreplied: false,
+      checkboxUnreplied: false
     },
     assignAgentData: {
       agentName: '',
       agentEmail: '',
-      agentId: '',
+      agentId: ''
     },
     ratingFilter: [
       {
         text: 'All',
-        value: null,
+        value: null
       },
       {
         text: '1 Star',
-        value: 1,
+        value: 1
       },
       {
         text: '2 Star',
-        value: 2,
+        value: 2
       },
       {
         text: '3 Star',
-        value: 3,
+        value: 3
       },
       {
         text: '4 Star',
-        value: 4,
+        value: 4
       },
       {
         text: '5 Star',
-        value: 5,
-      },
+        value: 5
+      }
     ],
     headers: [
       {
@@ -289,72 +291,72 @@ export default {
         value: 'date',
         align: 'left',
         width: 150,
-        sortable: false,
+        sortable: false
       },
       {
         text: 'App',
         value: 'displayAppName',
         width: 170,
-        sortable: false,
+        sortable: false
       },
       {
         text: 'Store Name',
         value: 'storeName',
         sortable: false,
-        width: 170,
+        width: 170
       },
       {
         text: 'Location',
         value: 'location',
         sortable: false,
-        width: 160,
+        width: 160
       },
       {
         text: 'Star Rating',
         value: 'rating',
         sortable: false,
         align: 'center',
-        width: 115,
+        width: 115
       },
       {
         text: 'Comment',
         value: 'comment',
         sortable: false,
         align: 'center',
-        width: 100,
+        width: 100
       },
       {
         text: 'Reply',
         value: 'developerReply',
         sortable: false,
         align: 'center',
-        width: 100,
+        width: 100
       },
       {
         text: 'Assigned Agent',
         value: 'assignedAgent.agentName',
         sortable: false,
         align: 'center',
-        width: 120,
+        width: 120
       },
       {
         text: 'Replied',
         value: 'isReplied',
         align: 'center',
         sortable: false,
-        width: 20,
+        width: 20
       },
       {
         text: 'Actions',
         value: 'actions',
         align: 'center',
         sortable: false,
-        width: 80,
-      },
+        width: 80
+      }
     ],
     options: {
       page: 1,
-      itemsPerPage: 25,
+      itemsPerPage: 25
     },
     csvFields: {
       Date: 'date',
@@ -365,15 +367,15 @@ export default {
       Comment: 'comment',
       Reply: 'developerReply',
       'Assigned Agent': 'assignedAgent.agentName',
-      Replied: 'isReplied',
-    },
+      Replied: 'isReplied'
+    }
   }),
 
   computed: {
     ...mapState(['reviews', 'reviewsCount', 'isLoading', 'apps', 'agents']),
     modalHeader() {
       return this.overlayType === 'comment' ? 'Comment:' : this.overlayType === 'reply' ? 'Reply:' : '';
-    },
+    }
   },
 
   async created() {
@@ -387,22 +389,27 @@ export default {
   watch: {
     filters: {
       async handler(oldValue, newValue) {
-        await this.getReviews(newValue);
-        console.log(newValue);
+        await this.getReviews({ ...newValue, searchQuery: this.searchQuery });
       },
-      deep: true,
+      deep: true
     },
     options: {
       async handler(val) {
+        window.scrollTo(0, 0);
         this.filters.options = val;
-        await this.getReviews(this.filters);
+        await this.getReviews({ ...this.filters, searchQuery: this.searchQuery });
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
 
   methods: {
     ...mapActions(['getReviews', 'getApps', 'getAgents']),
+    async search(delay) {
+      setTimeout(async () => {
+        await this.getReviews({ ...this.filters, searchQuery: this.searchQuery });
+      }, delay);
+    },
     async fetchReportData() {
       try {
         // Early return if already loading -> prevent multiple clicks
@@ -422,7 +429,7 @@ export default {
       this.appFilter = this.apps.map((item) => {
         return {
           text: item.displayAppName,
-          value: item.appName,
+          value: item.appName
         };
       });
       this.appFilter.unshift({ text: 'All', value: null });
@@ -431,7 +438,7 @@ export default {
       this.selectAgents = this.agents.map((item) => {
         return {
           text: `${item.name} - ${item.email}`,
-          value: item.email,
+          value: item.email
         };
       });
     },
@@ -458,8 +465,8 @@ export default {
     },
     redirectToShopify(reviewId) {
       window.open(`https://apps.shopify.com/partner/reviews/${reviewId}`);
-    },
-  },
+    }
+  }
 };
 </script>
 
