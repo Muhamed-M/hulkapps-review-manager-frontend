@@ -125,11 +125,8 @@
             </v-btn>
           </template>
 
-          <template #[`item.assignedAgent.agentName`]="{ item }">
-            <span
-              class="text-center d-block"
-              v-text="item.assignedAgent.agentName ? item.assignedAgent.agentName : '-'"
-            ></span>
+          <template #[`item.assignedAgents.agentName`]="{ item }">
+            <span v-text="item.assignedAgents.agentName ? item.assignedAgents.agentName : '-'"></span>
           </template>
 
           <template #[`item.isReplied`]="{ item }">
@@ -139,7 +136,7 @@
           <template #[`item.actions`]="{ item }">
             <div class="d-inline-flex justify-center">
               <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-btn
                     color="success"
                     fab
@@ -156,7 +153,7 @@
                 <span>Assign Agent</span>
               </v-tooltip>
               <v-tooltip top>
-                <template v-slot:activator="{ on, attrs }">
+                <template #activator="{ on, attrs }">
                   <v-btn
                     color="success"
                     fab
@@ -316,6 +313,7 @@ export default {
         text: 'Star Rating',
         value: 'rating',
         sortable: false,
+        align: 'center',
         width: 115,
       },
       {
@@ -334,7 +332,7 @@ export default {
       },
       {
         text: 'Assigned Agent',
-        value: 'assignedAgent.agentName',
+        value: 'assignedAgents.agentName',
         sortable: false,
         align: 'center',
         width: 120,
