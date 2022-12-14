@@ -1,6 +1,5 @@
 <template>
   <v-container class="my-4">
-    <h2 class="mt-3 mb-5 text-uppercase">Reviews of HulkApps on Shopify App Store</h2>
     <v-row>
       <v-col v-for="(chart, i) in charts" :key="i" cols="6" :lg="chart.cols">
         <ChartWidget
@@ -49,7 +48,7 @@ export default {
     ChartWidget,
     Growth,
     StarRatingWidget,
-    TableWidget,
+    TableWidget
   },
 
   data: () => ({
@@ -67,18 +66,18 @@ export default {
         DateTime.local().minus({ months: 3 }).monthShort,
         DateTime.local().minus({ months: 2 }).monthShort,
         DateTime.local().minus({ months: 1 }).monthShort,
-        DateTime.local().monthShort,
+        DateTime.local().monthShort
       ],
       datasets: [
         {
           data: [],
-          backgroundColor: '#01a9a2',
-        },
-      ],
+          backgroundColor: '#01a9a2'
+        }
+      ]
     },
     chartOptions: {
       responsive: true,
-      maintainAspectRatio: true,
+      maintainAspectRatio: true
     },
     charts: [
       {
@@ -87,7 +86,7 @@ export default {
         isLoading: false,
         icon: 'mdi-calendar',
         color: '#a0e6e3',
-        cols: 3,
+        cols: 3
       },
       {
         title: 'This Week',
@@ -95,7 +94,7 @@ export default {
         isLoading: false,
         icon: 'mdi-calendar-range',
         color: '#7eccc8',
-        cols: 3,
+        cols: 3
       },
       {
         title: 'This Month',
@@ -103,7 +102,7 @@ export default {
         isLoading: false,
         icon: 'mdi-calendar-month',
         color: '#5bbdb8',
-        cols: 3,
+        cols: 3
       },
       {
         title: 'Last Month',
@@ -111,7 +110,7 @@ export default {
         isLoading: false,
         icon: 'mdi-calendar-month',
         color: '#01aaa3',
-        cols: 3,
+        cols: 3
       },
       {
         title: 'TOTAL',
@@ -119,8 +118,8 @@ export default {
         isLoading: false,
         icon: 'mdi-chart-bar',
         color: '#05938a',
-        cols: 4,
-      },
+        cols: 4
+      }
     ],
     tableWidgets: [
       {
@@ -130,27 +129,27 @@ export default {
           {
             text: 'App',
             value: 'appName',
-            align: 'left',
+            align: 'left'
           },
           {
             text: 'This Month',
             value: 'thisMonth',
-            sortable: false,
+            sortable: false
           },
           {
             text: 'Last Month',
             value: 'lastMonth',
-            sortable: false,
+            sortable: false
           },
           {
             text: 'Total',
             value: 'numberOfReviews',
             align: 'right',
-            sortable: false,
-          },
+            sortable: false
+          }
         ],
         tableData: [],
-        loading: false,
+        loading: false
       },
       {
         title: 'Broken Down by Agent',
@@ -159,29 +158,29 @@ export default {
           {
             text: 'Agent',
             value: 'agentName',
-            align: 'left',
+            align: 'left'
           },
           {
             text: 'This Month',
             value: 'thisMonth',
-            sortable: false,
+            sortable: false
           },
           {
             text: 'Last Month',
             value: 'lastMonth',
-            sortable: false,
+            sortable: false
           },
           {
             text: 'Total',
             value: 'numberOfReviews',
             align: 'right',
-            sortable: false,
-          },
+            sortable: false
+          }
         ],
         tableData: [],
-        loading: false,
-      },
-    ],
+        loading: false
+      }
+    ]
   }),
 
   async created() {
@@ -220,7 +219,7 @@ export default {
       const response = await axios.get('/ha.api/v1/reviews/get-last-12');
       this.chartData.datasets[0].data = response.data.res;
       this.chartLoading = false;
-    },
-  },
+    }
+  }
 };
 </script>
