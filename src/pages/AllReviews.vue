@@ -89,7 +89,6 @@
       </v-card-title>
 
       <v-card-text>
-        {{ reviews[0] }}
         <v-data-table
           :headers="headers"
           :items="reviews"
