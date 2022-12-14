@@ -14,39 +14,72 @@
             ></v-text-field>
           </v-col>
 
-          <v-col cols="auto">
-            <v-select
-              :items="appFilter"
-              v-model="filters.filterByApp"
-              outlined
-              label="Filter By Apps"
-              hide-details
-            ></v-select>
-          </v-col>
+          <v-col>
+            <v-dialog v-model="dialog" width="500">
+              <template #activator="{ on: dialog, attrs }">
+                <v-tooltip right>
+                  <template #activator="{ on: tooltip }">
+                    <v-btn class="px-10 py-7" dark color="primary" v-bind="attrs" v-on="{ ...tooltip, ...dialog }">
+                      <v-icon dark> mdi-tune </v-icon>
+                    </v-btn>
+                  </template>
+                  <span>Open filters</span>
+                </v-tooltip>
+              </template>
 
-          <v-col cols="auto">
-            <v-select
-              :items="ratingFilter"
-              v-model="filters.filterByRating"
-              outlined
-              label="Filter By Rating"
-              hide-details
-            ></v-select>
-          </v-col>
+              <v-card>
+                <v-card-title class="text-h5 primary white--text mb-6"> Add filters </v-card-title>
 
-          <v-col cols="auto">
-            <v-checkbox v-model="filters.checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
-          </v-col>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="6">
+                      <v-select
+                        :items="appFilter"
+                        v-model="filters.filterByApp"
+                        outlined
+                        label="Filter By Apps"
+                        hide-details
+                      ></v-select>
+                    </v-col>
 
-          <v-col cols="auto">
-            <v-checkbox v-model="filters.checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
+                    <v-col cols="6">
+                      <v-select
+                        :items="ratingFilter"
+                        v-model="filters.filterByRating"
+                        outlined
+                        label="Filter By Rating"
+                        hide-details
+                      ></v-select>
+                    </v-col>
+
+                    <v-col cols="6">
+                      <v-checkbox v-model="filters.checkboxUnassigned" hide-details label="Unassigned"></v-checkbox>
+                    </v-col>
+
+                    <v-col cols="6">
+                      <v-checkbox v-model="filters.checkboxUnreplied" hide-details label="Unreplied"></v-checkbox>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+
+                <v-divider></v-divider>
+
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="primary" text @click="dialog = false"> OK </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
           </v-col>
 
           <v-spacer></v-spacer>
 
           <v-col cols="auto">
-            <download-excel :data="reviews" :fields="csvFields" name="All-Reviews.xls" type="xls">
-              <v-btn color="success">
+            <download-excel :fetch="() => fetchReportData()" :fields="csvFields" name="All-Reviews.xls" type="xls">
+              <v-btn v-if="progressLoading" color="success" class="py-7">
+                <v-progress-circular indeterminate color="white" class="mx-15"></v-progress-circular>
+              </v-btn>
+              <v-btn v-else color="success" class="py-7">
                 <v-icon class="mr-2">mdi-download</v-icon>
                 Export Table
               </v-btn>
@@ -54,6 +87,7 @@
           </v-col>
         </v-row>
       </v-card-title>
+
       <v-card-text>
         <v-data-table
           :headers="headers"
@@ -205,20 +239,22 @@ export default {
   },
 
   data: () => ({
+    progressLoading: false,
     search: '',
     overlay: false,
+    dialog: false,
     overlayType: null,
     comment: '',
+    appFilter: [],
+    selectAgents: [],
+    selectAgent: null,
+    assignAgentURL: '',
     filters: {
       filterByApp: null,
       filterByRating: null,
       checkboxUnassigned: false,
       checkboxUnreplied: false,
     },
-    appFilter: [],
-    selectAgents: [],
-    selectAgent: null,
-    assignAgentURL: '',
     assignAgentData: {
       agentName: '',
       agentEmail: '',
@@ -354,6 +390,7 @@ export default {
     filters: {
       async handler(oldValue, newValue) {
         await this.getReviews(newValue);
+        console.log(newValue);
       },
       deep: true,
     },
@@ -368,6 +405,21 @@ export default {
 
   methods: {
     ...mapActions(['getReviews', 'getApps', 'getAgents']),
+    async fetchReportData() {
+      try {
+        // Early return if already loading -> prevent multiple clicks
+        if (this.progressLoading) return;
+
+        this.progressLoading = true;
+        const resp = await axios.post('/ha.api/v1/reviews/get-report', this.filters);
+
+        return resp.data;
+      } catch (error) {
+        console.log(error);
+      } finally {
+        this.progressLoading = false;
+      }
+    },
     mapAppNames() {
       this.appFilter = this.apps.map((item) => {
         return {
