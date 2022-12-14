@@ -89,6 +89,7 @@
       </v-card-title>
 
       <v-card-text>
+        {{ reviews[0] }}
         <v-data-table
           :headers="headers"
           :items="reviews"
@@ -125,8 +126,8 @@
             </v-btn>
           </template>
 
-          <template #[`item.assignedAgents.agentName`]="{ item }">
-            <span v-text="item.assignedAgents.agentName ? item.assignedAgents.agentName : '-'"></span>
+          <template #[`item.assignedAgent.agentName`]="{ item }">
+            <span v-text="item.assignedAgent.agentName ? item.assignedAgent.agentName : '-'"></span>
           </template>
 
           <template #[`item.isReplied`]="{ item }">
@@ -332,7 +333,7 @@ export default {
       },
       {
         text: 'Assigned Agent',
-        value: 'assignedAgents.agentName',
+        value: 'assignedAgent.agentName',
         sortable: false,
         align: 'center',
         width: 120,
