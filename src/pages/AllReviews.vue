@@ -186,7 +186,6 @@
         min-height="400px"
         class="pa-4"
         rounded
-        light
       >
         <v-row class="ma-4" justify="space-between">
           <h3>{{ modalHeader }}</h3>
@@ -198,7 +197,7 @@
       <!-- READ COMMENT MODAL END -->
 
       <!-- ASSIGN AGENT MODAL START -->
-      <v-sheet v-if="overlayType === 'assignAgent'" width="500px" min-height="400px" class="pa-4" rounded light>
+      <v-sheet v-if="overlayType === 'assignAgent'" width="500px" min-height="400px" class="pa-4" rounded>
         <v-row class="ma-4" justify="space-between">
           <h3>Assign Agent</h3>
           <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>

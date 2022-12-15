@@ -26,7 +26,7 @@
             </v-col>
 
             <v-col cols="12">
-              <v-checkbox v-model="rememberMe" label="Remember Me" dense hide-details></v-checkbox>
+              <v-checkbox v-model="rememberMe" label="Stay signed in for 7 days" dense hide-details></v-checkbox>
             </v-col>
 
             <v-col cols="12">
