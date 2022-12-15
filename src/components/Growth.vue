@@ -1,12 +1,5 @@
 <template>
-  <v-card
-    elevation="3"
-    shaped
-    width="100%"
-    min-height="200px"
-    height="100%"
-    class="d-flex flex-column justify-space-between"
-  >
+  <v-card elevation="3" shaped width="100%" min-height="200px" height="100%" class="d-flex flex-column">
     <v-card-title>
       <v-icon>mdi-poll</v-icon>
       <v-card-title>Growth</v-card-title>
@@ -23,10 +16,8 @@
         </v-card-text>
       </div>
     </template>
-    <v-card-text v-else>
-      <v-sheet height="100%" class="d-flex justify-center align-center">
-        <v-progress-circular indeterminate color="primary"></v-progress-circular>
-      </v-sheet>
+    <v-card-text v-else class="d-flex justify-center align-center">
+      <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </v-card-text>
   </v-card>
 </template>
@@ -40,31 +31,31 @@ export default {
   name: 'GrowthChart',
 
   components: {
-    Bar,
+    Bar
   },
 
   props: {
     chartLoading: {
       type: Boolean,
-      default: false,
+      default: false
     },
     chartData: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     chartOptions: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     chartId: {
       type: String,
-      default: 'bar-chart',
+      default: 'bar-chart'
     },
     plugins: {
       type: Object,
-      default: () => {},
-    },
-  },
+      default: () => {}
+    }
+  }
 };
 </script>
 

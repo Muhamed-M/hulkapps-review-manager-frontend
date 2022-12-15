@@ -127,8 +127,8 @@
             </v-btn>
           </template>
 
-          <template #[`item.assignedAgent.agentName`]="{ item }">
-            <span v-text="item.assignedAgent.agentName ? item.assignedAgent.agentName : '-'"></span>
+          <template #[`item.assignedAgents.agentName`]="{ item }">
+            <span v-text="item.assignedAgents.agentName ? item.assignedAgents.agentName : '-'"></span>
           </template>
 
           <template #[`item.isReplied`]="{ item }">
@@ -334,7 +334,7 @@ export default {
       },
       {
         text: 'Assigned Agent',
-        value: 'assignedAgent.agentName',
+        value: 'assignedAgents.agentName',
         sortable: false,
         align: 'center',
         width: 120
@@ -366,7 +366,7 @@ export default {
       'Star Rating': 'rating',
       Comment: 'comment',
       Reply: 'developerReply',
-      'Assigned Agent': 'assignedAgent.agentName',
+      'Assigned Agent': 'assignedAgents.agentName',
       Replied: 'isReplied'
     }
   }),

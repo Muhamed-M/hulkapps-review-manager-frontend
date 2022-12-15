@@ -9,7 +9,7 @@
         <v-container>
           <img src="../assets/hulk-logo.png" alt="logo" width="70px" class="d-block mx-auto mb-3" />
           <h1 class="text-center my-3">LOG IN</h1>
-          <v-row @keypress.enter="login({ email, password })">
+          <v-row @keypress.enter="login({ email, password, rememberMe })">
             <v-col cols="12">
               <v-text-field v-model="email" type="email" label="Email" outlined shaped hide-details></v-text-field>
             </v-col>
@@ -26,7 +26,11 @@
             </v-col>
 
             <v-col cols="12">
-              <v-btn color="success" tile width="100%" class="my-3 py-6" @click="login({ email, password })"
+              <v-checkbox v-model="rememberMe" label="Remember Me" dense hide-details></v-checkbox>
+            </v-col>
+
+            <v-col cols="12">
+              <v-btn color="success" tile width="100%" class="my-3 py-6" @click="login({ email, password, rememberMe })"
                 >Log In
               </v-btn>
             </v-col>
@@ -34,13 +38,6 @@
         </v-container>
       </v-form>
     </v-card>
-
-    <v-snackbar v-model="$store.state.snackbar" timeout="3000">
-      {{ message }}
-      <template #action="{ attrs }">
-        <v-btn color="blue" text v-bind="attrs" @click="$store.state.snackbar = false"> Close </v-btn>
-      </template>
-    </v-snackbar>
   </v-container>
 </template>
 
@@ -53,15 +50,16 @@ export default {
   data: () => ({
     email: '',
     password: '',
+    rememberMe: false
   }),
 
   computed: {
-    ...mapState(['isLoading', 'message']),
+    ...mapState(['isLoading'])
   },
 
   methods: {
-    ...mapActions(['login']),
-  },
+    ...mapActions(['login'])
+  }
 };
 </script>
 

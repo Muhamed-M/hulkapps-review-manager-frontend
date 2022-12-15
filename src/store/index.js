@@ -2,13 +2,18 @@ import axios from 'axios';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import router from '@/router';
-
 Vue.use(Vuex);
 
+// proxy
 axios.defaults.baseURL = import.meta.env.VITE_BASE_URL;
 
+const now = Date.now();
 // get user if existing
 const user = JSON.parse(localStorage.getItem('user'));
+// If session expired remove user
+if (user?.expiresOn && user?.expiresOn < now) {
+  localStorage.removeItem('user');
+}
 
 export default new Vuex.Store({
   state: {
@@ -53,7 +58,7 @@ export default new Vuex.Store({
     // Log in
     async login({ commit }, data) {
       try {
-        const { email, password } = data;
+        const { email, password, rememberMe } = data;
         // If no data display message and return
         if (!email || !password) {
           commit('setSnackbar', true);
@@ -68,9 +73,9 @@ export default new Vuex.Store({
           password
         });
 
-        // set user to local storage
-        if (response.data) {
-          localStorage.setItem('user', JSON.stringify(response.data));
+        // set user to local storage with expiration of 7 days
+        if (response.data && rememberMe) {
+          localStorage.setItem('user', JSON.stringify({ ...response.data, expiresOn: now + 1000 * 60 * 60 * 24 * 7 }));
         }
 
         commit('setUser', response.data);
