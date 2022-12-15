@@ -71,6 +71,7 @@ export default {
 
   methods: {
     changeTheme() {
+      // Alter between dark and light theme
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
     },
     logout() {

@@ -404,14 +404,15 @@ export default {
           mustSort: false,
           multiSort: false
         };
+        newValue.options = this.options;
         await this.getReviews({ ...newValue, searchQuery: this.searchQuery });
       },
       deep: true
     },
     options: {
-      async handler(oldValue, newValue) {
+      async handler(value) {
         window.scrollTo(0, 0);
-        this.filters.options = newValue;
+        this.filters.options = value;
         await this.getReviews({ ...this.filters, searchQuery: this.searchQuery });
       },
       deep: true
