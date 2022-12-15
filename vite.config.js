@@ -8,19 +8,19 @@ module.exports = {
     alias: [
       {
         find: '@/',
-        replacement: `${path.resolve(__dirname, './src')}/`,
+        replacement: `${path.resolve(__dirname, './src')}/`
       },
       {
         find: 'src/',
-        replacement: `${path.resolve(__dirname, './src')}/`,
-      },
-    ],
+        replacement: `${path.resolve(__dirname, './src')}/`
+      }
+    ]
   },
   plugins: [
     vue(),
     viteComponents({
-      customComponentResolvers: [VuetifyResolver()],
-    }),
+      customComponentResolvers: [VuetifyResolver()]
+    })
   ],
   build: {
     rollupOptions: {
@@ -28,8 +28,8 @@ module.exports = {
         manualChunks: undefined,
         entryFileNames: 'assets/[name].js',
         chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name].[ext]',
-      },
-    },
-  },
+        assetFileNames: 'assets/[name].[ext]'
+      }
+    }
+  }
 };

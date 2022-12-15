@@ -1,6 +1,6 @@
 <template>
-  <v-container fluid class="max-width">
-    <v-card class="mt-10">
+  <v-container fluid class="max-width my-4">
+    <v-card shaped>
       <v-card-title>
         <v-row>
           <v-col cols="3">
