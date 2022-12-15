@@ -13,8 +13,8 @@
       </v-card-title>
       <v-divider class="mx-5"></v-divider>
       <v-card-text>
-        <v-icon>mdi-clock-time-four-outline</v-icon>
-        Updated 1h ago.
+        <v-icon class="mr-1">mdi-clock-time-four-outline</v-icon>
+        Data is updated every 5 minutes.
       </v-card-text>
     </template>
     <v-sheet v-else height="100%" class="d-flex justify-center align-center">
@@ -32,13 +32,13 @@ export default {
     number: Number,
     isLoading: Boolean,
     icon: String,
-    color: String,
+    color: String
   },
 
   methods: {
     formatNumber(num) {
       return this.number ? num.toLocaleString() : 0;
-    },
-  },
+    }
+  }
 };
 </script>

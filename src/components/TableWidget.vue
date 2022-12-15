@@ -17,8 +17,8 @@
       </v-card-text>
       <v-divider class="mx-5"></v-divider>
       <v-card-text>
-        <v-icon>mdi-clock-time-four-outline</v-icon>
-        Updated 1h ago.
+        <v-icon class="mr-1">mdi-clock-time-four-outline</v-icon>
+        Data is updated every 5 minutes.
       </v-card-text>
     </template>
 
@@ -37,7 +37,7 @@ export default {
     icon: String,
     headers: Array,
     tableData: Array,
-    loading: Boolean,
-  },
+    loading: Boolean
+  }
 };
 </script>

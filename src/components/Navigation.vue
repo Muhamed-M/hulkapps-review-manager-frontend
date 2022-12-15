@@ -52,7 +52,7 @@
             <v-list-item-icon>
               <v-icon>mdi-logout</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>Log Out</v-list-item-title>
+            <v-list-item-title>Sign Out</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -66,7 +66,7 @@ export default {
 
   data: () => ({
     drawer: false,
-    group: null,
+    group: null
   }),
 
   methods: {
@@ -77,14 +77,14 @@ export default {
       this.$store.commit('setUser', null);
       this.$router.push('/login');
       localStorage.removeItem('user');
-    },
+    }
   },
 
   computed: {
     themeIcon() {
       return this.$vuetify.theme.dark ? 'mdi-white-balance-sunny' : 'mdi-moon-waning-crescent';
-    },
-  },
+    }
+  }
 };
 </script>
 

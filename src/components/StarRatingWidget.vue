@@ -18,8 +18,8 @@
       <v-card-text>
         <v-row>
           <v-col class="d-flex align-center">
-            <v-icon>mdi-clock-time-four-outline</v-icon>
-            <span>Updated 1h ago.</span>
+            <v-icon class="mr-1">mdi-clock-time-four-outline</v-icon>
+            <span>Data is updated every 5 minutes.</span>
           </v-col>
           <v-col class="d-flex justify-end">
             <v-select
@@ -55,21 +55,21 @@ export default {
     filterOptions: [
       {
         text: 'All Time',
-        value: 'all',
+        value: 'all'
       },
       {
         text: 'This Month',
-        value: 'thisMonth',
-      },
-    ],
+        value: 'thisMonth'
+      }
+    ]
   }),
 
   watch: {
     timeFilter: {
       async handler() {
         await this.getReviewsByStarRating();
-      },
-    },
+      }
+    }
   },
 
   created() {
@@ -85,8 +85,8 @@ export default {
     },
     formatNumber(num) {
       return num.toLocaleString();
-    },
-  },
+    }
+  }
 };
 </script>
 

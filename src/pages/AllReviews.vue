@@ -80,7 +80,7 @@
           <v-col cols="auto">
             <download-excel :fetch="() => fetchReportData()" :fields="csvFields" name="All-Reviews.xls" type="xls">
               <v-btn v-if="progressLoading" color="success" class="py-7">
-                <v-progress-circular indeterminate color="white" class="mx-15"></v-progress-circular>
+                <v-progress-circular indeterminate color="white" class="mx-14"></v-progress-circular>
               </v-btn>
               <v-btn v-else color="success" class="py-7">
                 <v-icon class="mr-2">mdi-download</v-icon>
@@ -355,7 +355,13 @@ export default {
     ],
     options: {
       page: 1,
-      itemsPerPage: 25
+      itemsPerPage: 25,
+      sortBy: [],
+      sortDesc: [false],
+      groupBy: [],
+      groupDesc: [],
+      mustSort: false,
+      multiSort: false
     },
     csvFields: {
       Date: 'date',
@@ -388,14 +394,24 @@ export default {
   watch: {
     filters: {
       async handler(oldValue, newValue) {
+        this.options = {
+          page: 1,
+          itemsPerPage: 25,
+          sortBy: [],
+          sortDesc: [false],
+          groupBy: [],
+          groupDesc: [],
+          mustSort: false,
+          multiSort: false
+        };
         await this.getReviews({ ...newValue, searchQuery: this.searchQuery });
       },
       deep: true
     },
     options: {
-      async handler(val) {
+      async handler(oldValue, newValue) {
         window.scrollTo(0, 0);
-        this.filters.options = val;
+        this.filters.options = newValue;
         await this.getReviews({ ...this.filters, searchQuery: this.searchQuery });
       },
       deep: true
