@@ -432,7 +432,7 @@ export default {
         if (this.progressLoading) return;
 
         this.progressLoading = true;
-        const resp = await axios.post('/ha.api/v1/reviews/get-report', this.filters);
+        const resp = await axios.post('/ha.api/v1/cx-manager/get-report', this.filters);
 
         return resp.data;
       } catch (error) {
@@ -466,7 +466,7 @@ export default {
     openModal(type, reviewId) {
       this.overlay = !this.overlay;
       this.overlayType = type;
-      this.assignAgentURL = `/ha.api/v1/reviews/assign-agent-to-review/${reviewId}`;
+      this.assignAgentURL = `/ha.api/v1/cx-manager/assign-agent-to-review/${reviewId}`;
     },
     pickUpAgentData(email) {
       const agent = this.agents.find((item) => item.email === email);

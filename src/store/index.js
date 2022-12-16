@@ -101,7 +101,7 @@ export default new Vuex.Store({
     async getReviews({ commit, state }, data) {
       try {
         this.state.isLoading = true;
-        const response = await axios.post('/ha.api/v1/reviews/get-all-reviews', {
+        const response = await axios.post('/ha.api/v1/cx-manager/get-all-reviews', {
           filterRating: data.filterByRating,
           filterApp: data.filterByApp,
           showUnassigned: data.checkboxUnassigned,
@@ -119,12 +119,12 @@ export default new Vuex.Store({
     },
     // Get all apps
     async getApps({ commit }) {
-      const response = await axios.get('/ha.api/v1/reviews/get-all-apps');
+      const response = await axios.get('/ha.api/v1/cx-manager/get-all-apps');
       commit('setApps', response.data.data);
     },
     // Add apps
     async addApp({ commit }, data) {
-      const response = await axios.post('/ha.api/v1/reviews/add-app-name', {
+      const response = await axios.post('/ha.api/v1/cx-manager/add-app-name', {
         appName: data.appHandler,
         displayAppName: data.appName
       });
@@ -132,7 +132,7 @@ export default new Vuex.Store({
     },
     // Delete app
     async deleteApp({ commit }, id) {
-      await axios.delete(`/ha.api/v1/reviews/delete-app/${id}`);
+      await axios.delete(`/ha.api/v1/cx-manager/delete-app/${id}`);
       commit('deleteApp', id);
     },
     // Get list of all current users

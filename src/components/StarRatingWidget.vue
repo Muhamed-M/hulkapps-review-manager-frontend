@@ -79,7 +79,7 @@ export default {
   methods: {
     async getReviewsByStarRating() {
       this.isLoading = true;
-      const response = await axios.post('/ha.api/v1/reviews/reviews-by-star-rating', { filter: this.timeFilter });
+      const response = await axios.post('/ha.api/v1/cx-manager/reviews-by-star-rating', { filter: this.timeFilter });
       this.reviewsByStarRating = response.data.reviews;
       this.isLoading = false;
     },

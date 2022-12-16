@@ -196,7 +196,7 @@ export default {
       this.charts.forEach((chart) => {
         chart.isLoading = true;
       });
-      const response = await axios.get('/ha.api/v1/reviews/get-dashboard-data');
+      const response = await axios.get('/ha.api/v1/cx-manager/get-dashboard-data');
       this.charts.forEach((chart, i) => {
         chart.number = response.data.data[i];
         chart.isLoading = false;
@@ -204,19 +204,19 @@ export default {
     },
     async getBrokenByAppData() {
       this.tableWidgets[0].loading = true;
-      const response = await axios.get('/ha.api/v1/reviews/reviews-per-app');
+      const response = await axios.get('/ha.api/v1/cx-manager/reviews-per-app');
       this.tableWidgets[0].tableData = response.data.data;
       this.tableWidgets[0].loading = false;
     },
     async getBrokenByAgentData() {
       this.tableWidgets[1].loading = true;
-      const response = await axios.get('/ha.api/v1/reviews/reviews-filtered-by-agent');
+      const response = await axios.get('/ha.api/v1/cx-manager/reviews-filtered-by-agent');
       this.tableWidgets[1].tableData = response.data.reviews;
       this.tableWidgets[1].loading = false;
     },
     async getGrowthData() {
       this.chartLoading = true;
-      const response = await axios.get('/ha.api/v1/reviews/get-last-12');
+      const response = await axios.get('/ha.api/v1/cx-manager/get-last-12');
       this.chartData.datasets[0].data = response.data.res;
       this.chartLoading = false;
     }
