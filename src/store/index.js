@@ -47,14 +47,6 @@ export default new Vuex.Store({
     changePageTitle({ commit }, title) {
       commit('setPageTitle', title);
     },
-    // Scrape newest reviews
-    /*   async getNewestReviews() {
-      await axios.post('/ha.api/v1/reviews/retrive-newest-reviews');
-    },
-    // Scrape all reviews
-    async getAllReviews() {
-      await axios.post('/ha.api/v1/reviews/retrive-reviews');
-    }, */
     // Log in
     async login({ commit }, data) {
       try {

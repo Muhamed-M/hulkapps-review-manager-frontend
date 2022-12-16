@@ -178,46 +178,43 @@
     </v-card>
 
     <!-- MODALS START -->
-    <v-overlay :value="overlay">
+    <v-dialog v-model="modal" width="500">
       <!-- READ COMMENT MODAL START -->
-      <v-sheet
-        v-if="overlayType === 'comment' || overlayType === 'reply'"
-        width="500px"
-        min-height="400px"
-        class="pa-4"
-        rounded
-      >
-        <v-row class="ma-4" justify="space-between">
+      <v-card v-if="modalType === 'comment' || modalType === 'reply'">
+        <v-card-title class="text-h5 primary white--text mb-6 d-flex justify-space-between">
           <h3>{{ modalHeader }}</h3>
-          <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
-        </v-row>
-        <v-divider class="my-4"></v-divider>
-        <div class="ma-2">{{ comment }}</div>
-      </v-sheet>
+          <v-btn icon @click="modal = !modal"><v-icon color="white">mdi-close</v-icon></v-btn>
+        </v-card-title>
+
+        <v-card-text>{{ comment }}</v-card-text>
+      </v-card>
       <!-- READ COMMENT MODAL END -->
 
       <!-- ASSIGN AGENT MODAL START -->
-      <v-sheet v-if="overlayType === 'assignAgent'" width="500px" min-height="400px" class="pa-4" rounded>
-        <v-row class="ma-4" justify="space-between">
+      <v-card v-if="modalType === 'assignAgent'">
+        <v-card-title class="text-h5 primary white--text mb-6 d-flex justify-space-between">
           <h3>Assign Agent</h3>
-          <v-btn icon @click="overlay = !overlay"><v-icon>mdi-close</v-icon></v-btn>
-        </v-row>
-        <v-divider class="my-4"></v-divider>
-        <v-select
-          :items="selectAgents"
-          v-model="selectAgent"
-          label="Select Agent"
-          outlined
-          @change="pickUpAgentData"
-        ></v-select>
-        <v-row class="pa-4">
-          <v-btn color="success" @click="assignAgentHandler()">Submit</v-btn>
+          <v-btn icon @click="modal = !modal"><v-icon color="white">mdi-close</v-icon></v-btn>
+        </v-card-title>
+
+        <v-card-text>
+          <v-select
+            :items="selectAgents"
+            v-model="selectAgent"
+            label="Select Agent"
+            outlined
+            @change="pickUpAgentData"
+          ></v-select>
+        </v-card-text>
+
+        <v-card-actions class="px-6 pb-5">
+          <v-btn color="error" @click="modal = !modal">Cancel</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="overlay = !overlay">Cancel</v-btn>
-        </v-row>
-      </v-sheet>
+          <v-btn color="success" @click="assignAgentHandler()">Submit</v-btn>
+        </v-card-actions>
+      </v-card>
       <!-- ASSIGN AGENT MODAL END -->
-    </v-overlay>
+    </v-dialog>
     <!-- MODALS END -->
   </v-container>
 </template>
@@ -238,9 +235,9 @@ export default {
 
   data: () => ({
     progressLoading: false,
-    overlay: false,
+    modal: false,
     dialog: false,
-    overlayType: null,
+    modalType: null,
     comment: '',
     appFilter: [],
     selectAgents: [],
@@ -379,7 +376,7 @@ export default {
   computed: {
     ...mapState(['reviews', 'reviewsCount', 'isLoading', 'apps', 'agents']),
     modalHeader() {
-      return this.overlayType === 'comment' ? 'Comment:' : this.overlayType === 'reply' ? 'Reply:' : '';
+      return this.modalType === 'comment' ? 'Comment:' : this.modalType === 'reply' ? 'Reply:' : '';
     }
   },
 
@@ -459,13 +456,13 @@ export default {
       });
     },
     openComment(type, comment) {
-      this.overlay = !this.overlay;
-      this.overlayType = type;
+      this.modal = !this.modal;
+      this.modalType = type;
       this.comment = comment;
     },
     openModal(type, reviewId) {
-      this.overlay = !this.overlay;
-      this.overlayType = type;
+      this.modal = !this.modal;
+      this.modalType = type;
       this.assignAgentURL = `/ha.api/v1/cx-manager/assign-agent-to-review/${reviewId}`;
     },
     pickUpAgentData(email) {
@@ -476,7 +473,7 @@ export default {
     },
     async assignAgentHandler() {
       await axios.patch(this.assignAgentURL, { assignAgentData: this.assignAgentData });
-      this.overlay = !this.overlay;
+      this.modal = !this.modal;
       this.selectAgent = null;
     },
     redirectToShopify(reviewId) {
@@ -491,13 +488,5 @@ export default {
   max-width: 2000px;
   width: 98%;
   margin-inline: auto;
-}
-
-.search {
-  max-width: 400px !important;
-}
-
-.selects {
-  max-width: 240px !important;
 }
 </style>
