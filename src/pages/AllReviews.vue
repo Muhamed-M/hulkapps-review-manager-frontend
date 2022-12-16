@@ -236,8 +236,8 @@ export default {
   data: () => ({
     progressLoading: false,
     modal: false,
-    dialog: false,
     modalType: null,
+    dialog: false,
     comment: '',
     appFilter: [],
     selectAgents: [],

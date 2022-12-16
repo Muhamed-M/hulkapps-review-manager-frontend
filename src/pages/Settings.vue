@@ -1,23 +1,5 @@
 <template>
   <v-container class="my-2">
-    <!-- MANULLY UPDATE DATA SECTION START -->
-    <!-- <v-row class="my-4">
-      <v-col cols="4">
-        <h2 class="text-uppercase">Update Data</h2>
-        <h4>Manually scrape data.</h4>
-      </v-col>
-      <v-col cols="8" class="text-right" align-self="center">
-        <v-btn color="primary" class="mr-4 py-6 px-7" @click="getNewestReviews()">
-          <v-icon class="mr-2">mdi-refresh</v-icon> Get Newest Data
-        </v-btn>
-        <v-btn color="success" class="py-6 px-7" @click="getAllReviews()">
-          <v-icon class="mr-2">mdi-refresh</v-icon> Get All Data
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-divider class="my-6"></v-divider> -->
-    <!-- MANULLY UPDATE DATA SECTION END -->
-
     <!-- ADD APPS SECTION START -->
     <v-row>
       <v-col cols="6">
@@ -95,11 +77,15 @@
     <!-- REGISTER NEW USER END -->
 
     <!-- MODALS START -->
-    <v-overlay :value="overlay">
+    <v-dialog v-model="modal" width="500">
       <!-- ADD APP MODAL START -->
-      <v-sheet v-if="overlayType === 'addApp'" width="500px" min-height="400px" class="pa-4" rounded light>
-        <v-form class="pa-4 mt-10">
-          <h2 class="text-uppercase mb-4">Add app name and app handle</h2>
+      <v-card v-if="modalType === 'addApp'">
+        <v-card-title class="text-h5 primary white--text mb-6 d-flex justify-space-between">
+          <h3 class="text-upperacse">Add app</h3>
+          <v-btn icon @click="modal = !modal"><v-icon color="white">mdi-close</v-icon></v-btn>
+        </v-card-title>
+
+        <v-card-text>
           <v-text-field
             v-model="appName"
             label="Enter App Name"
@@ -111,26 +97,31 @@
           ></v-text-field>
           <v-text-field
             v-model="appHandler"
-            label="Enter App Handler"
+            label="Enter App Handle"
             type="text"
             outlined
             clearable
             hide-details
             class="mx-auto"
           ></v-text-field>
-        </v-form>
-        <v-row class="pa-7">
-          <v-btn color="success" @click="addAppHandler()">Add</v-btn>
+        </v-card-text>
+
+        <v-card-actions class="px-6 pb-5">
+          <v-btn color="error" @click="modal = !modal">Cancel</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="overlay = !overlay">Cancel</v-btn>
-        </v-row>
-      </v-sheet>
+          <v-btn color="success" @click="addAppHandler()">Add</v-btn>
+        </v-card-actions>
+      </v-card>
       <!-- ADD APP MODAL END -->
 
       <!-- REGISTER USER MODAL START -->
-      <v-sheet v-if="overlayType === 'addUser'" width="500px" min-height="400px" class="pa-4" rounded light>
-        <v-form class="pa-4">
-          <h2 class="text-uppercase mb-4">Register User</h2>
+      <v-card v-if="modalType === 'addUser'">
+        <v-card-title class="text-h5 primary white--text mb-6 d-flex justify-space-between">
+          <h3 class="text-upperacse">Register User</h3>
+          <v-btn icon @click="modal = !modal"><v-icon color="white">mdi-close</v-icon></v-btn>
+        </v-card-title>
+
+        <v-card-text>
           <v-text-field
             v-model="name"
             label="Enter User Name"
@@ -159,15 +150,16 @@
             class="mx-auto mb-5"
           ></v-text-field>
           <v-checkbox v-model="isAgent" label="Agent"></v-checkbox>
-        </v-form>
-        <v-row class="pa-7">
-          <v-btn color="success" @click="registrationHandler()">Submit</v-btn>
+        </v-card-text>
+
+        <v-card-actions class="px-6 pb-5">
+          <v-btn color="error" @click="modal = !modal">Cancel</v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="error" @click="overlay = !overlay">Cancel</v-btn>
-        </v-row>
-      </v-sheet>
+          <v-btn color="success" @click="registrationHandler()">Submit</v-btn>
+        </v-card-actions>
+      </v-card>
       <!-- REGISTER USER MODAL END -->
-    </v-overlay>
+    </v-dialog>
     <!-- MODALS END -->
   </v-container>
 </template>
@@ -185,8 +177,8 @@ export default {
     email: '',
     password: '',
     isAgent: false,
-    overlay: false,
-    overlayType: null,
+    modal: false,
+    modalType: null,
     appsTableHeaders: [
       {
         text: 'App Icon',
@@ -248,27 +240,18 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'getNewestReviews',
-      'getAllReviews',
-      'getApps',
-      'addApp',
-      'deleteApp',
-      'register',
-      'getAllUsers',
-      'deleteUser'
-    ]),
+    ...mapActions(['getApps', 'addApp', 'deleteApp', 'register', 'getAllUsers', 'deleteUser']),
     addAppHandler() {
       this.addApp({ appName: this.appName, appHandler: this.appHandler });
-      this.overlay = !this.overlay;
+      this.modal = !this.modal;
     },
     registrationHandler() {
       this.register({ email: this.email, password: this.password, name: this.name, isAgent: this.isAgent });
-      this.overlay = !this.overlay;
+      this.modal = !this.modal;
     },
     openModal(type) {
-      this.overlay = !this.overlay;
-      this.overlayType = type;
+      this.modal = !this.modal;
+      this.modalType = type;
     }
   }
 };

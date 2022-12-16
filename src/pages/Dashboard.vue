@@ -183,7 +183,7 @@ export default {
     ]
   }),
 
-  async created() {
+  created() {
     this.$store.state.pageTitle = 'Dashboard';
     this.getChartsData();
     this.getBrokenByAppData();

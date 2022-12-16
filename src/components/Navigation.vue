@@ -9,7 +9,7 @@
         <v-spacer></v-spacer>
         <img src="../assets/hulk-logo.png" alt="logo" width="50px" />
         <v-spacer></v-spacer>
-        <v-btn color="primary" @click="changeTheme()">
+        <v-btn icon @click="changeTheme()">
           <v-icon>{{ themeIcon }}</v-icon></v-btn
         >
       </v-container>
