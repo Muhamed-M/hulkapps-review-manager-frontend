@@ -1,7 +1,7 @@
 <template>
   <v-container class="my-2">
     <!-- MANULLY UPDATE DATA SECTION START -->
-    <v-row class="my-4">
+    <!-- <v-row class="my-4">
       <v-col cols="4">
         <h2 class="text-uppercase">Update Data</h2>
         <h4>Manually scrape data.</h4>
@@ -15,7 +15,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-divider class="my-6"></v-divider>
+    <v-divider class="my-6"></v-divider> -->
     <!-- MANULLY UPDATE DATA SECTION END -->
 
     <!-- ADD APPS SECTION START -->
@@ -39,7 +39,7 @@
         :items="apps"
         :items-per-page="10"
         :footer-props="{
-          'items-per-page-options': [5, 10, 25],
+          'items-per-page-options': [5, 10, 25]
         }"
       >
         <template #[`item.appPhotoUrl`]="{ item }">
@@ -78,7 +78,7 @@
         :items="usersList"
         :items-per-page="10"
         :footer-props="{
-          'items-per-page-options': [5, 10, 25],
+          'items-per-page-options': [5, 10, 25]
         }"
       >
         <template #[`item.isAgent`]="{ item }">
@@ -191,50 +191,50 @@ export default {
       {
         text: 'App Icon',
         value: 'appPhotoUrl',
-        align: 'left',
+        align: 'left'
       },
       {
         text: 'App Name',
         value: 'displayAppName',
-        align: 'left',
+        align: 'left'
       },
       {
         text: 'App Handle',
         value: 'appName',
-        sortable: false,
+        sortable: false
       },
       {
         text: 'Actions',
         value: 'actions',
         align: 'right',
         sortable: false,
-        width: 120,
-      },
+        width: 120
+      }
     ],
     usersTableHeaders: [
       {
         text: 'Name',
         value: 'name',
-        align: 'left',
+        align: 'left'
       },
       {
         text: 'Email',
         value: 'email',
-        align: 'left',
+        align: 'left'
       },
       {
         text: 'Agent',
         value: 'isAgent',
-        sortable: false,
+        sortable: false
       },
       {
         text: 'Actions',
         value: 'actions',
         align: 'right',
         sortable: false,
-        width: 120,
-      },
-    ],
+        width: 120
+      }
+    ]
   }),
 
   created() {
@@ -244,7 +244,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['apps', 'usersList']),
+    ...mapState(['apps', 'usersList'])
   },
 
   methods: {
@@ -256,7 +256,7 @@ export default {
       'deleteApp',
       'register',
       'getAllUsers',
-      'deleteUser',
+      'deleteUser'
     ]),
     addAppHandler() {
       this.addApp({ appName: this.appName, appHandler: this.appHandler });
@@ -269,7 +269,7 @@ export default {
     openModal(type) {
       this.overlay = !this.overlay;
       this.overlayType = type;
-    },
-  },
+    }
+  }
 };
 </script>
